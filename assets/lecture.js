@@ -81,6 +81,13 @@
     /* Les films n'existent qu'en noir : on ne montre pas du noir sous une autre couleur. */
     [].forEach.call(document.querySelectorAll('[data-noir-seul]'), function (f) { f.hidden = !noir; });
     [].forEach.call(document.querySelectorAll('[data-couleur-seul]'), function (f) { f.hidden = noir || !b.dataset.decor; });
+    /* Le décor de la couleur : son film s'il existe, sinon l'image fixe. */
+    [].forEach.call(document.querySelectorAll('video[data-film]'), function (v) {
+      var img = v.parentNode.querySelector('img[data-detail="decor"]'), film = !noir && b.dataset.film;
+      v.hidden = !film; if (img) img.hidden = !!film;
+      if (film) { if (v.getAttribute('src') !== film) { v.poster = b.dataset.decor || ''; v.src = film; } var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+      else if (!v.paused) v.pause();
+    });
     if (buy && bientot) { buy.hidden = !noir; bientot.hidden = noir; }
     var barre = document.getElementById('achat-barre'); if (barre) barre.style.display = noir ? '' : 'none';
     if (maj && history.replaceState) history.replaceState(null, '', noir ? location.pathname : '#' + b.dataset.code);
