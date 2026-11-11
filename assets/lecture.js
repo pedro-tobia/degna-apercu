@@ -48,3 +48,38 @@
   }, { threshold: 0.6 });
   lignes.forEach(function (l) { obs.observe(l); });
 })();
+
+/* Coloris : la pastille change les images de la fiche. Seul le noir et blanc existe ;
+   les autres coloris remplacent l'achat par « Me prévenir ». */
+(function () {
+  var p = [].slice.call(document.querySelectorAll('.coloris .pastille'));
+  if (!p.length) return;
+  var vue = document.getElementById('vue'), dos = document.getElementById('vue-dos');
+  var nom = document.querySelector('.coloris__nom');
+  var apercu = document.querySelector('.apercu-couleur');
+  var buy = document.getElementById('buy'), bientot = document.querySelector('.coloris__bientot');
+  var notify = document.querySelector('.notify-coloris') || (bientot && bientot.querySelector('a'));
+  var vues = [].slice.call(document.querySelectorAll('.vues button'));
+  function choisir(b, maj) {
+    p.forEach(function (o) { o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); });
+    var noir = b.dataset.code === 'noir';
+    if (nom) nom.innerHTML = b.dataset.nom;
+    if (vue && b.dataset.face) vue.src = b.dataset.face;
+    if (dos && b.dataset.dos) dos.src = b.dataset.dos;
+    if (apercu) apercu.hidden = noir;
+    if (notify) notify.href = b.dataset.mail;
+    vues.forEach(function (v) {
+      var r = v.dataset.role, src = b.dataset[r];
+      if (r === 'dos') { v.hidden = !noir; return; }
+      if (src) { v.dataset.src = src; v.querySelector('img').src = src; }
+      v.setAttribute('aria-pressed', r === 'face' ? 'true' : 'false');
+    });
+    if (buy && bientot) { buy.hidden = !noir; bientot.hidden = noir; }
+    var barre = document.getElementById('achat-barre'); if (barre) barre.style.display = noir ? '' : 'none';
+    if (maj && history.replaceState) history.replaceState(null, '', noir ? location.pathname : '#' + b.dataset.code);
+  }
+  p.forEach(function (b) { b.addEventListener('click', function () { choisir(b, true); }); });
+  var h = location.hash.slice(1);
+  var depart = p.filter(function (b) { return b.dataset.code === h; })[0];
+  if (depart) choisir(depart, false);
+})();
