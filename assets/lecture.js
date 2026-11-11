@@ -71,6 +71,7 @@
     vues.forEach(function (v) {
       var r = v.dataset.role, src = b.dataset[r];
       if (r === 'dos') { v.hidden = !noir; return; }
+      v.hidden = !src;
       if (src) { v.dataset.src = src; v.querySelector('img').src = src; }
       v.setAttribute('aria-pressed', r === 'face' ? 'true' : 'false');
     });
@@ -82,4 +83,20 @@
   var h = location.hash.slice(1);
   var depart = p.filter(function (b) { return b.dataset.code === h; })[0];
   if (depart) choisir(depart, false);
+})();
+
+/* Carrousel des coloris : flèches sur ordinateur, glissement au doigt sur téléphone. */
+(function () {
+  [].slice.call(document.querySelectorAll('.carrousel')).forEach(function (c) {
+    var liste = c.querySelector('.coloris__liste');
+    var fl = [].slice.call(c.querySelectorAll('.carrousel__fleche'));
+    function maj() {
+      var max = liste.scrollWidth - liste.clientWidth - 2;
+      fl[0].disabled = liste.scrollLeft <= 2; fl[1].disabled = liste.scrollLeft >= max;
+      c.classList.toggle('carrousel--plein', max <= 0);
+    }
+    fl.forEach(function (b) { b.addEventListener('click', function () {
+      liste.scrollBy({ left: Number(b.dataset.dir) * liste.clientWidth * 0.8, behavior: 'smooth' }); }); });
+    liste.addEventListener('scroll', maj, { passive: true }); window.addEventListener('resize', maj); maj();
+  });
 })();

@@ -434,3 +434,36 @@ hr{border:0;border-top:1px solid var(--rule);margin:0}
 .langues-racine{list-style:none;padding:0;margin:0;display:flex;gap:var(--s6);flex-wrap:wrap;justify-content:center}
 .langues-racine a{font-size:.86rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);text-decoration:none;border-bottom:1px solid var(--pearl);padding-bottom:var(--s1)}
 .foot .footnav{flex-wrap:wrap}
+
+/* ---------- coloris : carrousel de gros plans ---------- */
+.carrousel{position:relative;display:flex;align-items:center;gap:var(--s2)}
+.coloris__liste{flex:1;display:flex;gap:var(--s3);overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:4px 2px;flex-wrap:nowrap}
+.coloris__liste::-webkit-scrollbar{display:none}
+.vignette{flex:0 0 76px;width:76px;height:76px;border-radius:0;padding:0;border:1px solid var(--rule);background:var(--paper-2);
+  box-shadow:none;scroll-snap-align:start;overflow:hidden;cursor:pointer;position:relative}
+.vignette img{width:100%;height:100%;object-fit:cover;display:block}
+.vignette[aria-pressed="true"]{outline:1px solid var(--ink);outline-offset:3px}
+.vignette:focus-visible{outline:2px solid var(--pearl);outline-offset:3px}
+/* vignette dessinée en attendant la photo : côte, deux barrettes, perle */
+.vignette__css{position:absolute;inset:0;background:
+  repeating-linear-gradient(90deg,rgba(255,255,255,.07) 0 2px,rgba(0,0,0,.10) 2px 5px),var(--c1)}
+.vignette__css::before,.vignette__css::after{content:"";position:absolute;left:14%;right:14%;height:5px;background:var(--c2);top:42%}
+.vignette__css::after{top:56%}
+.vignette__css{--perle:radial-gradient(circle at 40% 35%,#fff 0 18%,#efe6dc 40%,#c9b8a6 70%,#9c8466 72%,#9c8466 80%,transparent 82%)}
+.vignette::after{content:"";position:absolute;width:16px;height:16px;left:calc(50% - 8px);top:calc(49% - 8px);background:radial-gradient(circle at 40% 35%,#fff 0 18%,#efe6dc 42%,#cdbca9 66%,#a88d68 70% 80%,transparent 82%);pointer-events:none}
+.vignette:has(img)::after{display:none}
+.carrousel__fleche{flex:0 0 28px;height:76px;border:0;background:none;font-size:1.6rem;line-height:1;color:var(--ink);cursor:pointer;padding:0}
+.carrousel__fleche:disabled{opacity:.2;cursor:default}
+.carrousel--plein .carrousel__fleche{display:none}
+@media (max-width:820px){.carrousel__fleche{display:none}.vignette{flex-basis:68px;width:68px;height:68px}}
+.coloris-accueil{gap:var(--s2)}
+.vignette--petite{flex:0 0 44px;width:44px;height:44px;display:inline-block}
+.vignette--petite::after{width:10px;height:10px;left:calc(50% - 5px);top:calc(49% - 5px)}
+.vignette--petite .vignette__css::before,.vignette--petite .vignette__css::after{height:3px}
+/* un fieldset prend par défaut la largeur de son contenu : le contraindre à sa colonne */
+.coloris{min-width:0;max-width:100%}
+.carrousel,.coloris__liste{min-width:0}
+.hero__copy{min-width:0}
+.vignette__css::before,.vignette__css::after{height:3px;left:18%;right:18%;top:44%}
+.vignette__css::after{top:54%}
+.vignette::after{width:12px;height:12px;left:calc(50% - 6px);top:calc(49% - 6px)}
