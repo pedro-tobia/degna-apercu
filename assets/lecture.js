@@ -70,11 +70,17 @@
     if (notify) notify.href = b.dataset.mail;
     vues.forEach(function (v) {
       var r = v.dataset.role, src = b.dataset[r];
-      if (r === 'dos') { v.hidden = !noir; return; }
       v.hidden = !src;
       if (src) { v.dataset.src = src; v.querySelector('img').src = src; }
       v.setAttribute('aria-pressed', r === 'face' ? 'true' : 'false');
     });
+    /* Gros plans : la même prise, dans la couleur choisie. */
+    [].forEach.call(document.querySelectorAll('img[data-detail]'), function (i) {
+      var src = b.dataset[i.dataset.detail]; if (src) i.src = src;
+    });
+    /* Les films n'existent qu'en noir : on ne montre pas du noir sous une autre couleur. */
+    [].forEach.call(document.querySelectorAll('[data-noir-seul]'), function (f) { f.hidden = !noir; });
+    [].forEach.call(document.querySelectorAll('[data-couleur-seul]'), function (f) { f.hidden = noir || !b.dataset.decor; });
     if (buy && bientot) { buy.hidden = !noir; bientot.hidden = noir; }
     var barre = document.getElementById('achat-barre'); if (barre) barre.style.display = noir ? '' : 'none';
     if (maj && history.replaceState) history.replaceState(null, '', noir ? location.pathname : '#' + b.dataset.code);

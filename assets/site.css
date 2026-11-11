@@ -427,7 +427,7 @@ hr{border:0;border-top:1px solid var(--rule);margin:0}
 .coloris-accueil span:last-child{margin-left:var(--s2)}
 .apercu-couleur{font-size:.78rem;color:var(--mute);margin-top:var(--s2);text-align:center}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.vues button[hidden]{display:none}
+.vues button[hidden],[data-noir-seul][hidden],[data-couleur-seul][hidden]{display:none}
 
 /* ---------- racine : choix de la langue ---------- */
 .choix-langue{min-height:90vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--s6);text-align:center;padding:var(--s8) 16px}
