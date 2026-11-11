@@ -76,7 +76,8 @@
     });
     /* Gros plans : la même prise, dans la couleur choisie. */
     [].forEach.call(document.querySelectorAll('img[data-detail]'), function (i) {
-      var src = b.dataset[i.dataset.detail]; if (src) i.src = src;
+      var cle = i.dataset.detail.replace(/-([a-z])/g, function (m, c) { return c.toUpperCase(); });   /* data-porte-tq → porteTq */
+      var src = b.dataset[cle]; if (src) i.src = src;
     });
     /* Les films n'existent qu'en noir : on ne montre pas du noir sous une autre couleur. */
     [].forEach.call(document.querySelectorAll('[data-noir-seul]'), function (f) { f.hidden = !noir; });
