@@ -467,3 +467,12 @@ hr{border:0;border-top:1px solid var(--rule);margin:0}
 .vignette__css::before,.vignette__css::after{height:3px;left:18%;right:18%;top:44%}
 .vignette__css::after{top:54%}
 .vignette::after{width:12px;height:12px;left:calc(50% - 6px);top:calc(49% - 6px)}
+
+/* Dessin technique : plat au trait, légende des points de mesure */
+.plat{margin:1.2rem 0 .6rem}
+.plat img{display:block;width:100%;height:auto}
+.plat figcaption{margin-top:.4rem;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted,#6b6660);text-align:center}
+.plat-legende{list-style:none;margin:0 0 2rem;padding:0;display:grid;grid-template-columns:1fr;gap:.35rem .8rem;font-size:.92rem}
+@media (min-width:640px){.plat-legende{grid-template-columns:1fr 1fr}}
+.plat-legende li{display:flex;align-items:baseline;gap:.55rem}
+.plat-lettre{flex:none;display:inline-grid;place-items:center;width:1.45rem;height:1.45rem;border:1px solid currentColor;border-radius:50%;font-size:.75rem}
