@@ -161,3 +161,44 @@
       .then(function () { bouton.disabled = false; });
   });
 })();
+
+/* Cabine d'essayage : un clic sur un haut ou un bas change la photo, le total, et prépare la réservation. */
+(function () {
+  var vue = document.getElementById('cabine-vue'); if (!vue) return;
+  var total = document.getElementById('cabine-total'), reserver = document.getElementById('cabine-reserver');
+  var lang = (document.documentElement.lang || 'en').slice(0, 2);
+  var sansFondu = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function prix(n) { return lang === 'fr' ? n + ' $ US' : lang === 'es' ? n + ' US$' : '$' + n; }
+  function choisi(g) { return document.querySelector('[data-cabine-' + g + '][aria-pressed="true"]'); }
+  function maj() {
+    var h = choisi('haut'), b = choisi('bas');
+    var src = vue.dataset.base + h.dataset.cabineHaut + '--' + b.dataset.cabineBas + '.jpg';
+    vue.alt = h.dataset.nom + ' + ' + b.dataset.nom;
+    if (vue.getAttribute('src') !== src) {
+      if (sansFondu) vue.src = src;
+      else { vue.classList.add('fondu'); setTimeout(function () { vue.onload = function () { vue.classList.remove('fondu'); }; vue.src = src; }, 180); }
+    }
+    total.textContent = h.dataset.nom + ' ' + prix(h.dataset.prix) + ' + ' + b.dataset.nom + ' ' + prix(b.dataset.prix) +
+                        ' = ' + prix(Number(h.dataset.prix) + Number(b.dataset.prix));
+  }
+  [].forEach.call(document.querySelectorAll('[data-cabine-haut],[data-cabine-bas]'), function (o) {
+    o.addEventListener('click', function () {
+      var g = o.hasAttribute('data-cabine-haut') ? 'haut' : 'bas';
+      [].forEach.call(document.querySelectorAll('[data-cabine-' + g + ']'), function (x) { x.setAttribute('aria-pressed', x === o ? 'true' : 'false'); });
+      maj();
+    });
+  });
+  /* Réserver : la liste d'attente coche exactement les deux pièces de la tenue. */
+  reserver.addEventListener('click', function (e) {
+    var cles = [choisi('haut').dataset.cle, choisi('bas').dataset.cle];
+    [].forEach.call(document.querySelectorAll('[data-liste] input[name="pieces"]'), function (c) { c.checked = cles.indexOf(c.dataset.cle) > -1; });
+    var m = document.getElementById('liste-courriel');
+    if (m) { e.preventDefault(); document.getElementById('liste').scrollIntoView({ behavior: sansFondu ? 'auto' : 'smooth', block: 'center' }); setTimeout(function () { m.focus({ preventScroll: true }); }, 400); }
+  });
+  /* Les photos des autres tenues se chargent en avance, pour un changement sans attente. */
+  setTimeout(function () {
+    [].forEach.call(document.querySelectorAll('[data-cabine-haut]'), function (h) {
+      [].forEach.call(document.querySelectorAll('[data-cabine-bas]'), function (b) { (new Image()).src = vue.dataset.base + h.dataset.cabineHaut + '--' + b.dataset.cabineBas + '.jpg'; });
+    });
+  }, 2500);
+})();
