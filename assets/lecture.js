@@ -60,6 +60,7 @@
   var buy = document.getElementById('buy'), bientot = document.querySelector('.coloris__bientot');
   var notify = document.querySelector('.notify-coloris') || (bientot && bientot.querySelector('a'));
   var vues = [].slice.call(document.querySelectorAll('.vues button'));
+  var sansFondu = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   function choisir(b, maj) {
     p.forEach(function (o) { o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); });
     var noir = b.dataset.code === 'noir';
@@ -77,8 +78,12 @@
     /* Gros plans : la même prise, dans la couleur choisie. */
     [].forEach.call(document.querySelectorAll('img[data-detail]'), function (i) {
       var cle = i.dataset.detail.replace(/-([a-z])/g, function (m, c) { return c.toUpperCase(); });   /* data-porte-tq → porteTq */
-      var src = b.dataset[cle]; if (src) i.src = src;
+      var src = b.dataset[cle]; if (!src || i.getAttribute('src') === src) return;
+      if (!i.getAttribute('src') || sansFondu) { i.src = src; return; }
+      i.classList.add('fondu');                 /* fondu de 400 ms : l'image s'efface, change, revient */
+      setTimeout(function () { i.onload = function () { i.classList.remove('fondu'); }; i.src = src; }, 220);
     });
+    var lc = document.querySelector('[data-liste] input[name="couleur"]'); if (lc) lc.value = b.dataset.nom;
     /* Les films n'existent qu'en noir : on ne montre pas du noir sous une autre couleur. */
     [].forEach.call(document.querySelectorAll('[data-noir-seul]'), function (f) { f.hidden = !noir; });
     [].forEach.call(document.querySelectorAll('[data-couleur-seul]'), function (f) { f.hidden = noir || !b.dataset.decor; });
@@ -112,5 +117,47 @@
     fl.forEach(function (b) { b.addEventListener('click', function () {
       liste.scrollBy({ left: Number(b.dataset.dir) * liste.clientWidth * 0.8, behavior: 'smooth' }); }); });
     liste.addEventListener('scroll', maj, { passive: true }); window.addEventListener('resize', maj); maj();
+  });
+})();
+
+/* Fiche robe : compteur de la bande d'images sur téléphone (« 3 / 7 »). */
+(function () {
+  var bande = document.querySelector('.fiche__medias'), c = document.querySelector('.fiche__compteur');
+  if (!bande || !c) return;
+  var n = c.querySelectorAll('span');
+  function maj() {
+    var vis = [].filter.call(bande.children, function (m) { return !m.hidden; });
+    var i = Math.round(bande.scrollLeft / Math.max(1, bande.clientWidth));
+    n[0].textContent = Math.min(vis.length, i + 1); n[1].textContent = vis.length;
+  }
+  bande.addEventListener('scroll', maj, { passive: true }); window.addEventListener('resize', maj);
+  [].forEach.call(document.querySelectorAll('.coloris .pastille'), function (b) {
+    b.addEventListener('click', function () { bande.scrollTo({ left: 0 }); setTimeout(maj, 50); });
+  });
+  maj();
+})();
+
+/* Liste d'attente : envoyée au service de formulaires s'il est branché,
+   sinon un courriel déjà rédigé vers hello@degna.ca. Jamais d'impasse. */
+(function () {
+  var f = document.querySelector('form[data-liste]'); if (!f) return;
+  var etat = f.querySelector('.liste__etat');
+  f.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var d = new FormData(f), pieces = d.getAll('pieces');
+    if (!pieces.length) { f.querySelector('input[name="pieces"]').focus(); return; }
+    var url = f.dataset.url, bouton = f.querySelector('button[type="submit"]');
+    if (!url) {
+      var corps = f.dataset.lPieces + ' : ' + pieces.join(', ') + '\n' + f.dataset.lCouleur + ' : ' + (d.get('couleur') || '') +
+                  '\n' + f.dataset.lTaille + ' : ' + (d.get('taille') || '—') + '\n' + d.get('email');
+      location.href = 'mailto:hello@degna.ca?subject=' + encodeURIComponent(f.dataset.sujet) + '&body=' + encodeURIComponent(corps);
+      return;
+    }
+    bouton.disabled = true;
+    fetch(url, { method: 'POST', body: d, headers: { Accept: 'application/json' } }).then(function (r) {
+      if (!r.ok) throw new Error(r.status);
+      etat.className = 'liste__etat ok'; etat.textContent = etat.dataset.ok; f.reset();
+    }).catch(function () { etat.className = 'liste__etat'; etat.innerHTML = etat.dataset.err; })
+      .then(function () { bouton.disabled = false; });
   });
 })();

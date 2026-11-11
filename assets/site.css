@@ -513,3 +513,105 @@ hr{border:0;border-top:1px solid var(--rule);margin:0}
   .galerie--robe .g-carre:first-child img{aspect-ratio:16/10}
   .galerie--robe .g-carre{grid-column:span 3}
 }
+
+/* =====================================================================
+   FICHE ROBE (refonte 2026-11-11)
+   Le désir d'abord : la marche et les photos ouvrent la page ; l'achat suit.
+   Téléphone : bande d'images qu'on glisse au doigt, compteur discret, puis l'achat.
+   Ordinateur : colonne d'images à gauche (60 %), achat collant à droite.
+   ===================================================================== */
+.fiche{display:grid;grid-template-columns:1fr;position:relative}
+.fiche__medias{
+  display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;
+  -webkit-overflow-scrolling:touch;background:#fbfaf6;outline:none;
+}
+.fiche__medias::-webkit-scrollbar{display:none}
+.fiche__medias .m{flex:0 0 100%;margin:0;scroll-snap-align:start;background:#fff;position:relative}
+.fiche__medias .m[hidden]{display:none}
+.fiche__medias img,.fiche__medias video{width:100%;height:min(78svh,133vw);object-fit:cover;object-position:50% 30%}
+.fiche__medias .m--film{background:#fbfaf6}
+.fiche__medias .m--film video{object-fit:contain;background:#fbfaf6}
+.fiche__medias .m--film img{object-fit:cover}
+.fiche__compteur{
+  position:absolute;right:var(--gut-r);top:calc(min(78svh,133vw) - 36px);margin:0;z-index:2;
+  font-size:.74rem;letter-spacing:.12em;color:var(--ink);background:rgba(255,255,255,.82);padding:2px 8px;
+  font-variant-numeric:tabular-nums;
+}
+.fiche__achat{padding:var(--s6) var(--gut-r) var(--s10) var(--gut);max-width:560px;width:100%;margin-inline:auto}
+.fiche__achat h1{font-size:clamp(1.5rem,5.6vw,2.2rem);line-height:1.16;letter-spacing:-.015em;font-weight:500;margin:.35rem 0 0}
+.fiche__achat .price{margin:.9rem 0 1rem}
+.fiche__achat .buy{max-width:none}
+/* coloris : deux rangées, aucune flèche, aucune pastille cachée */
+.fiche .carrousel__fleche{display:none}
+.fiche .carrousel{display:block}
+.fiche .coloris__liste{flex-wrap:wrap;overflow:visible;gap:6px;padding:0}
+.fiche .vignette{flex:0 0 calc((100% - 30px) / 6);width:calc((100% - 30px) / 6);height:auto;aspect-ratio:1}
+.fiche .vignette img{transition:opacity .4s ease}
+/* le bouton reste discret tant qu'aucune taille n'est choisie */
+.btn--attente{background:transparent;color:var(--ink);border-color:var(--rule-strong)}
+.btn--attente:hover,.btn--attente:focus-visible{background:var(--paper-2);color:var(--ink);border-color:var(--ink)}
+/* guide des tailles : un tiroir sur place */
+.tiroir{margin:-.4rem 0 var(--s5)}
+.tiroir summary{cursor:pointer;font-size:.84rem;color:var(--pearl-ink);text-decoration:underline;text-underline-offset:3px;list-style:none;display:inline-block}
+.tiroir summary::-webkit-details-marker{display:none}
+.tiroir__corps{margin-top:var(--s3);padding:var(--s4);background:var(--paper-2);font-size:.88rem}
+.tiroir__corps ul{margin:0 0 var(--s3);padding-left:1.1em}
+.tiroir__corps a{color:var(--pearl-ink)}
+/* les images changent de couleur en fondu */
+.fiche-robe img[data-detail]{transition:opacity .4s ease}
+.fiche-robe img.fondu{opacity:0}
+
+/* intermède : la marche dans le métro, une phrase, la taille en mouvement */
+.interlude{display:grid;grid-template-columns:1fr;gap:var(--s6);padding:var(--s12) var(--gut-r) var(--s12) var(--gut);background:var(--paper-2)}
+.interlude[hidden]{display:none}
+.interlude figure{margin:0}
+.interlude__metro video{width:100%;aspect-ratio:9/16;object-fit:cover;background:#0f1012}
+.interlude__texte{display:flex;flex-direction:column;justify-content:center;gap:var(--s8)}
+.interlude__texte p{font-size:clamp(1.25rem,3.6vw,1.75rem);line-height:1.4;letter-spacing:-.01em;margin:0;max-width:30rem}
+.interlude__texte video{width:100%;aspect-ratio:16/9;object-fit:cover;background:#0f1012}
+
+/* la silhouette complète */
+.silhouette{padding:var(--s16) var(--gut-r) var(--s16) var(--gut);max-width:1440px;margin:0 auto}
+.silhouette__tete h2{font-size:clamp(1.4rem,4vw,2rem);font-weight:500;margin:0}
+.silhouette__tete p{color:var(--mute);margin:.5rem 0 var(--s8);max-width:34rem}
+.silhouette__corps{display:grid;grid-template-columns:minmax(0,1fr);gap:var(--s8)}
+.silhouette__corps > *{min-width:0}
+.silhouette__porte{margin:0;background:#fff}
+.silhouette__porte img{width:100%;aspect-ratio:3/4;object-fit:cover}
+.cartes{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:var(--s5) var(--s4)}
+.carte a{text-decoration:none;display:block}
+.carte__vue{position:relative;display:block;background:#fff;border:1px solid var(--rule)}
+.carte__vue img{width:100%;aspect-ratio:3/4;object-fit:contain;padding:8%}
+.carte__dos{position:absolute;inset:0;height:100%;opacity:0;transition:opacity .5s ease;background:#fff}
+.carte a:hover .carte__dos,.carte a:focus-visible .carte__dos{opacity:1}
+.carte__nom{display:block;margin-top:var(--s2);font-size:.92rem;line-height:1.35}
+.carte__prix{display:block;font-size:.8rem;color:var(--mute);font-variant-numeric:tabular-nums}
+.liste{margin-top:var(--s8);padding:var(--s6);background:var(--card);border:1px solid var(--rule)}
+.liste h3{margin:0;font-size:1.1rem;font-weight:500}
+.liste__txt{color:var(--mute);font-size:.88rem;margin:.3rem 0 var(--s4)}
+.liste fieldset{border:0;padding:0;margin:0 0 var(--s4);display:flex;flex-wrap:wrap;gap:var(--s2) var(--s4)}
+.liste legend{font-size:.74rem;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin-bottom:var(--s2)}
+.coche{font-size:.88rem;display:flex;gap:6px;align-items:center}
+.liste__ligne{display:flex;flex-wrap:wrap;gap:var(--s2)}
+.liste__ligne .btn{flex:1 0 auto}
+.liste__ligne input{flex:1 1 200px;min-width:0;font:inherit;padding:var(--s3);border:1px solid var(--rule-strong);background:var(--paper);color:var(--ink)}
+.liste__ligne input:focus{outline:2px solid var(--pearl);outline-offset:1px}
+.liste__etat{font-size:.86rem;margin:var(--s3) 0 0;min-height:1.2em}
+.liste__etat.ok{color:var(--ok)}
+
+@media (min-width:900px){
+  .fiche{grid-template-columns:minmax(0,1.5fr) minmax(360px,1fr);align-items:start;gap:0 clamp(32px,4vw,64px);
+    max-width:1440px;margin:0 auto;padding:var(--s6) var(--gut-r) 0 var(--gut)}
+  .fiche__medias{display:grid;grid-template-columns:repeat(6,1fr);gap:var(--s3);overflow:visible;background:transparent}
+  .fiche__medias .m--grand{grid-column:span 3}
+  .fiche__medias .m--petit{grid-column:span 2}
+  .fiche__medias img,.fiche__medias video{height:auto;aspect-ratio:3/4}
+  .fiche__medias .m--petit img{aspect-ratio:1}
+  .fiche__compteur{display:none}
+  .fiche__achat{position:sticky;top:88px;padding:var(--s4) 0 var(--s10);max-width:440px;margin:0}
+  .interlude{grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:clamp(32px,5vw,80px);padding:var(--s20) max(var(--gut),calc((100vw - 1440px)/2 + 20px))}
+  .interlude__metro video{max-height:86vh;width:auto;margin-left:auto}
+  .silhouette__corps{grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:clamp(32px,5vw,72px);align-items:start}
+  .cartes{grid-template-columns:repeat(4,1fr)}
+}
+@media (prefers-reduced-motion:reduce){.fiche-robe img[data-detail],.carte__dos,.fiche .vignette img{transition:none}}

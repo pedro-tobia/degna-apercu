@@ -102,7 +102,10 @@ function initCheckout() {
         if (r) r.checked = true;
         f.querySelector(".buy-size").textContent = " · " + size;
         f.querySelector(".sizes").classList.remove("rappel");
+        const b = f.querySelector('button[type="submit"]'), lab = f.querySelector(".buy-label");
+        if (b && lab && b.dataset.acheter) { lab.textContent = b.dataset.acheter; b.classList.remove("btn--attente"); }
       });
+      const champ = document.querySelector('[data-liste] input[name="taille"]'); if (champ) champ.value = size;
     });
 
     form.addEventListener("submit", function (e) {
