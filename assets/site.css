@@ -497,3 +497,19 @@ hr{border:0;border-top:1px solid var(--rule);margin:0}
   .langues-menu{order:2;margin-left:auto}
   .topnav{order:3;width:100%;justify-content:space-between}
 }
+/* galerie de la robe : mosaïque sans trou, chaque tuile a son format fixe */
+.galerie--robe{grid-template-columns:repeat(6,1fr)}
+.galerie--robe figure{grid-column:span 2}
+.galerie--robe .g-portrait{grid-column:span 3}
+.galerie--robe .g-large,.galerie--robe .g-seul{grid-column:1 / -1}
+.galerie--robe .g-seul{justify-self:center;width:min(100%,520px)}
+.galerie--robe img,.galerie--robe video{height:100%;object-fit:cover}
+.galerie--robe .g-carre img{aspect-ratio:1/1}
+.galerie--robe .g-portrait video,.galerie--robe .g-portrait img{aspect-ratio:9/16;object-position:50% 50%}
+.galerie--robe .g-large video{aspect-ratio:16/9}
+@media (max-width:820px){.galerie--robe{grid-template-columns:repeat(6,1fr)}}
+@media (max-width:620px){
+  .galerie--robe .g-carre:first-child{grid-column:1 / -1}
+  .galerie--robe .g-carre:first-child img{aspect-ratio:16/10}
+  .galerie--robe .g-carre{grid-column:span 3}
+}
