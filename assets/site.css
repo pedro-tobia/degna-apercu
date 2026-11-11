@@ -1,0 +1,414 @@
+/* DEGNA — feuille de style du site
+   Parti pris : un seul monde visuel, clair. Une boutique de prêt-à-porter ne bascule pas
+   en sombre ; toutes les couleurs sont donc posées explicitement, sans bloc nocturne.
+   Palette tirée du vêtement : l'encre du tricot, le blanc du col, le laiton du bouton perle. */
+
+:root{
+  --ink:#16171a;
+  --paper:#fbfaf8;
+  --paper-2:#f2f0ec;
+  --card:#ffffff;
+  --pearl:#a8864f;--pearl-ink:#86683a;
+  --mute:#65676c;
+  --rule:#e2e0db;--rule-strong:#8e8b82;
+  --ok:#2f6b4f;
+
+  --ui:"Source Sans 3",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  --read:"Source Serif 4",Georgia,"Times New Roman",serif;
+
+  /* échelle 4 px — plus aucune valeur arbitraire */
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:20px; --s6:24px;
+  --s8:32px; --s10:40px; --s12:48px; --s16:64px; --s20:80px;
+
+  --measure:34rem;
+  --gut:max(20px,env(safe-area-inset-left,0px));
+  --gut-r:max(20px,env(safe-area-inset-right,0px));
+  color-scheme:light;
+}
+
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--ui);font-size:17px;line-height:1.6;
+  font-weight:400;-webkit-font-smoothing:antialiased;
+}
+img,video{max-width:100%;height:auto;display:block}
+a{color:inherit}
+.min{min-width:0}
+
+/* ---------- ossature ---------- */
+.band{padding-block:clamp(var(--s16),9vw,104px)}
+.band--tight{padding-block:clamp(var(--s10),6vw,var(--s16))}
+.band--paper2{background:var(--paper-2)}
+.band--ink{background:var(--ink);color:var(--paper)}
+.inner{
+  max-width:1140px;margin:0 auto;
+  padding-left:var(--gut);padding-right:var(--gut-r);
+}
+.inner--narrow{max-width:720px}
+
+/* ---------- typographie ---------- */
+h1,h2,h3,h4{margin:0;font-weight:400;text-wrap:balance}
+h2{font-size:clamp(1.55rem,4vw,2.3rem);line-height:1.14;letter-spacing:-.012em}
+h3{font-size:clamp(1.1rem,2.6vw,1.35rem);line-height:1.25}
+h4{font-size:.98rem;font-weight:600}
+p{margin:0 0 1.05rem;max-width:var(--measure)}
+.lede{font-size:clamp(1.05rem,2.5vw,1.22rem);line-height:1.52;color:var(--mute)}
+.read{font-family:var(--read);font-size:1.06rem;line-height:1.68}
+.read p{max-width:32rem}
+.eyebrow{
+  font-size:.84rem;font-weight:400;letter-spacing:.01em;
+  color:var(--pearl-ink);margin:0 0 var(--s3);
+}
+.eyebrow--quiet{color:var(--mute)}
+.num{font-variant-numeric:tabular-nums}
+
+/* ---------- en-tête ---------- */
+.topbar{
+  position:sticky;top:env(safe-area-inset-top,0px);z-index:20;
+  background:rgba(251,250,248,.94);backdrop-filter:saturate(1.2) blur(10px);
+  border-bottom:1px solid var(--rule);
+}
+body::before{
+  content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);
+  z-index:21;background:var(--paper);
+}
+.topbar .inner{display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  padding-block:var(--s3)}
+.brand{display:block;color:var(--ink);text-decoration:none;line-height:0}
+.brand svg{width:clamp(104px,16vw,146px);height:auto}
+.topnav{display:flex;gap:clamp(.8rem,2.6vw,1.9rem);align-items:center;
+  font-size:.78rem;letter-spacing:.1em;text-transform:uppercase}
+.topnav .long{display:inline}
+@media (max-width:700px){
+  .topbar .inner{padding-block:var(--s3)}
+  .topnav{font-size:.68rem;letter-spacing:.07em;gap:.75rem}
+  .topnav .long{display:none}
+  .brand svg,.brand img{width:92px}
+}
+@media (max-width:380px){ .topnav{gap:.6rem;font-size:.64rem} }
+.topnav a{text-decoration:none;color:var(--mute);white-space:nowrap}
+.topnav a:hover,.topnav a:focus-visible{color:var(--ink)}
+.topnav a[aria-current="page"]{color:var(--ink)}
+
+/* ---------- héros ---------- */
+.hero{display:grid;grid-template-columns:1fr 1.3fr;align-items:center;gap:clamp(24px,5vw,56px)}
+.hero__media{position:relative;background:var(--paper)}
+/* le lecteur garde le rapport de sa source : aucun rapport imposé, aucune bande */
+.hero__media video{width:100%;height:auto;aspect-ratio:auto;object-fit:contain;background:var(--paper)}
+/* le héros porte la photographie de studio : rapport natif du fichier, aucun recadrage */
+.hero__media img{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:50% 22%}
+.hero__word{width:min(100%,420px);margin-bottom:1.6rem;color:var(--ink)}
+.hero h1,.hero__copy h1{font-size:clamp(1.6rem,4.4vw,2.5rem);line-height:1.16;letter-spacing:-.015em;
+  max-width:14em;margin-bottom:.9rem}
+.hero h1 span,.hero__copy h1 span{display:block;color:var(--mute)}
+@media (max-width:820px){
+  .hero{grid-template-columns:1fr}
+  .hero__copy{order:2}
+  /* l'image passe devant, mais elle doit laisser dépasser le titre */
+  .hero__media img{max-height:46vh;width:auto;margin-inline:auto}
+  /* On plafonne par la LARGEUR, pas par la hauteur : un plafond de hauteur sur un
+     lecteur pleine largeur fabrique un encadrement vide et rapetisse la mannequin.
+     38vh de large = 60vh de haut au rapport de la source, sans jamais encadrer. */
+  /* Pleine largeur de colonne sur un téléphone ; le plafond en pixels
+     ne mord qu'à partir de la tablette, où la colonne devient trop large. */
+  /* On plafonne par la HAUTEUR de fenêtre, en laissant la largeur suivre :
+     c'est la seule mesure qui garde le titre au-dessus de la ligne de flottaison
+     quel que soit le téléphone. 38vh de large = 72vh de haut au rapport du plan. */
+  .hero .hero__media video{width:clamp(240px,37.5vh,100%);max-width:420px;height:auto;
+    max-height:none;object-fit:contain;display:block;margin-inline:auto;aspect-ratio:auto}
+  /* Chaque pixel entre le plan et le titre est pris à la mannequin : on resserre
+     l'espacement du héros plutôt que de la rapetisser. */
+  .hero{row-gap:var(--s4)}
+  .band--tight:first-of-type{padding-top:var(--s6)}
+  .hero .hero__film{margin-top:var(--s2)}
+  .hero .hero__film figcaption{padding-top:var(--s2);margin-top:var(--s1)}
+}
+
+/* ---------- prix et achat ---------- */
+.price{display:flex;align-items:baseline;gap:.6rem;margin:1.4rem 0 1.1rem}
+.price b{font-size:1.5rem;font-weight:600;font-variant-numeric:tabular-nums}
+.price span{font-size:.84rem;color:var(--mute);letter-spacing:.06em}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+  background:var(--ink);color:var(--paper);border:1px solid var(--ink);
+  font-family:var(--ui);font-size:.86rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  padding:var(--s4) var(--s8);text-decoration:none;cursor:pointer;transition:background .15s,color .15s;
+}
+.btn:hover,.btn:focus-visible{background:#000;border-color:#000;color:var(--paper)}
+.btn--ghost{background:transparent;color:var(--ink)}
+.btn--ghost:hover,.btn--ghost:focus-visible{background:var(--ink);color:var(--paper)}
+.btn--block{width:100%}
+.reassure{font-size:.86rem;color:var(--mute);margin-top:.85rem;max-width:26rem}
+.reassure b{color:var(--ink);font-weight:600}
+
+/* ---------- grilles ---------- */
+.grid{display:grid;gap:clamp(12px,2vw,20px)}
+.grid--3{grid-template-columns:repeat(3,1fr)}
+.grid--4{grid-template-columns:repeat(4,1fr)}
+.grid--2{grid-template-columns:repeat(2,1fr)}
+.grid--split{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,5vw,72px);align-items:center}
+@media (max-width:860px){ .grid--4{grid-template-columns:repeat(2,1fr)} .grid--split{grid-template-columns:1fr} }
+@media (max-width:620px){ .grid--3{grid-template-columns:1fr} .grid--2{grid-template-columns:1fr} }
+figure{margin:0}
+figcaption{font-size:.8rem;color:var(--mute);margin-top:.6rem;line-height:1.45}
+figcaption b{color:var(--ink);font-weight:600;display:block;font-size:.84rem}
+
+/* ---------- vidéos de scène ----------
+   DORMANT. Le balisage `.scenes` a été retiré d'index.html le 2026-11-10 : les quatre
+   plans étaient de synthèse. Ces règles sont conservées intactes — les plans sont
+   cadrés et servent de storyboard, la grille resservira telle quelle au tournage réel. */
+.scenes{display:grid;grid-template-columns:1.52fr 1fr;grid-template-rows:auto auto;
+  gap:var(--s3);align-items:stretch}
+.scenes li{display:flex;min-width:0}
+.scenes figure{display:flex;flex-direction:column;width:100%}
+.scenes li:first-child{grid-row:span 2}
+.scenes li:first-child video{aspect-ratio:auto;flex:1;min-height:0}
+.scenes video{width:100%;aspect-ratio:9/16;object-fit:cover;object-position:50% 18%;
+  background:var(--paper-2)}
+
+/* galerie produit : quatre médias, un seul rapport, des légendes alignées */
+.gallery figure{display:flex;flex-direction:column}
+.gallery img,.gallery video{width:100%;aspect-ratio:3/4;object-fit:cover;background:var(--paper-2)}
+.gallery video{object-position:50% 22%}
+.scenes figcaption{font-size:.86rem}
+@media (max-width:620px){
+  .scenes{grid-template-columns:1fr 1fr}
+  .scenes li:first-child{grid-row:auto;grid-column:span 2}
+  .scenes li:first-child video{aspect-ratio:16/10}
+}
+
+/* ---------- le bloc taille ---------- */
+.fit{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);
+  gap:clamp(28px,5vw,64px);align-items:start}
+@media (max-width:860px){ .fit{grid-template-columns:1fr} }
+.tablewrap{overflow-x:auto;border:1px solid var(--rule);background:var(--card)}
+table{border-collapse:collapse;width:100%;min-width:430px;font-size:.92rem}
+caption{text-align:left;font-size:.82rem;color:var(--mute);padding:var(--s4) var(--s4) var(--s2)}
+th,td{padding:var(--s3) var(--s4);text-align:left;border-bottom:1px solid var(--rule);
+  font-variant-numeric:tabular-nums}
+thead th{font-size:.84rem;color:var(--mute);font-weight:600}
+tbody tr:last-child th,tbody tr:last-child td{border-bottom:0}
+tbody th{font-weight:600}
+.specs{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
+.specs li{display:grid;grid-template-columns:auto 1fr;gap:var(--s2) var(--s6);
+  padding:var(--s3) 0;border-bottom:1px solid var(--rule);font-size:.94rem}
+.specs dt,.specs .k{color:var(--mute)}
+.specs .v{display:flex;justify-content:flex-end;align-items:center;gap:var(--s2);font-weight:600;text-align:right;font-variant-numeric:tabular-nums}
+
+/* ---------- carte de réassurance ---------- */
+.promise{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,3vw,32px)}
+@media (max-width:760px){ .promise{grid-template-columns:1fr} }
+.promise h4{margin-bottom:.3rem}
+.promise p{font-size:.92rem;color:var(--mute);margin:0}
+
+/* ---------- achat ---------- */
+.buy{max-width:430px}
+.sizes{display:flex;flex-wrap:wrap;gap:.5rem;margin:.6rem 0 1.4rem}
+.sizes input{position:absolute;opacity:0;width:0;height:0}
+.sizes label{
+  border:1px solid var(--rule);background:var(--card);padding:var(--s3) var(--s4);
+  font-size:.88rem;font-weight:600;cursor:pointer;min-width:3.2rem;text-align:center;
+  transition:border-color .12s,background .12s;
+}
+.sizes input:checked + label{border-color:var(--ink);background:var(--ink);color:var(--paper)}
+.sizes input:focus-visible + label{outline:2px solid var(--pearl);outline-offset:2px}
+.sizes label.out{color:var(--mute);text-decoration:line-through;cursor:not-allowed;opacity:.55}
+
+/* ---------- pied ---------- */
+.foot{border-top:1px solid var(--rule);font-size:.86rem;color:var(--mute)}
+.foot .inner{display:flex;flex-wrap:wrap;gap:1.2rem 2.4rem;justify-content:space-between;
+  padding-block:var(--s10) var(--s16)}
+.foot a{text-decoration:none}
+.foot a:hover{color:var(--ink)}
+.footnav{display:flex;flex-wrap:wrap;gap:.8rem 1.6rem}
+.origin{font-size:.82rem}
+
+/* ---------- valeurs à confirmer ----------
+   Elles portent l'attribut `data-tbd` et se lisent comme du texte ordinaire :
+   aucune décoration, aucune infobulle, rien qui signale un chantier au visiteur.
+   Le marqueur reste dans le HTML pour `verifier.sh`, qui bloque la mise en
+   production tant qu'il en reste un. Ne lui donnez pas de style. */
+
+/* ---------- divers ---------- */
+hr{border:0;border-top:1px solid var(--rule);margin:0}
+.center{text-align:center}
+.center p{margin-left:auto;margin-right:auto}
+:focus-visible{outline:2px solid var(--pearl);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+
+/* mesures : pouces en tête, centimètres en seconde ligne — lisible à 375 px */
+.tablewrap td,.tablewrap th{white-space:nowrap}
+.tablewrap small{display:block;color:var(--mute);font-size:.82em;font-weight:400;margin-top:.1rem}
+
+/* ---------- passage en caisse ---------- */
+.paywith{font-size:.78rem;color:var(--mute);margin:.7rem 0 0;letter-spacing:.01em}
+.done{
+  background:#eef4ef;border-left:3px solid var(--ok);color:var(--ink);
+  padding:var(--s4) var(--s4);margin:0 0 1.6rem;font-size:.92rem;max-width:none
+}
+.done b{display:block;margin-bottom:.15rem}
+.btn[disabled]{opacity:.55;cursor:progress}
+
+/* ---------- signature : le repère de mesure ----------
+   DEGNA ne promet pas la qualité, elle la mesure. Chaque valeur relevée
+   porte un filet de laiton de 12 px. Rien d'autre sur le site ne le porte. */
+.specs .v::before{
+  content:"";flex:0 0 12px;height:1px;background:var(--pearl);
+}
+.specs .v.plain::before{content:none}
+/* Le repère se trace quand la ligne entre dans le champ : une fois, puis plus jamais.
+   Sans script (pas de classe .js) ou sans mouvement, il est simplement là. */
+.js .specs li .v::before{transform:scaleX(0);transform-origin:right center;
+  transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+.js .specs li.vu .v::before{transform:scaleX(1)}
+@media (prefers-reduced-motion:reduce){
+  .js .specs li .v::before{transform:none;transition:none}
+}
+
+/* ---------- la ligne : les six pièces de Série Un ----------
+   Une feuille de ligne, pas une grille de cartes. Les cinq pièces qui n'existent
+   pas encore ne reçoivent ni image ni lien : elles sont nommées, et c'est tout. */
+.ligne{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
+.ligne__item{
+  display:grid;grid-template-columns:76px auto minmax(0,1fr) auto;
+  gap:var(--s4) var(--s5);align-items:start;
+  padding-block:var(--s5);border-bottom:1px solid var(--rule);
+}
+.ligne__vue{
+  width:76px;height:auto;aspect-ratio:3/4;object-fit:cover;
+  background:#f1efea;border:1px solid var(--rule);display:block;
+}
+.ligne__vue--vide{border-style:dashed;background:transparent}
+.ligne__n{
+  font-variant-numeric:tabular-nums;font-size:.9rem;color:var(--mute);
+  min-width:2.2rem;padding-top:.2rem;
+}
+.ligne__corps h3{font-size:1.15rem;margin:0 0 .25rem}
+.ligne__corps h3 a{text-decoration:none;border-bottom:1px solid var(--pearl);padding-bottom:1px}
+.ligne__corps h3 a:hover,.ligne__corps h3 a:focus-visible{border-bottom-color:var(--ink)}
+.ligne__corps p{margin:0;font-size:.95rem;color:var(--mute);max-width:36rem}
+.ligne__etat{
+  font-size:.78rem;color:var(--mute);white-space:nowrap;justify-self:end;
+}
+.ligne__etat--live{color:var(--ink);font-weight:600}
+.ligne__item--live .ligne__n{color:var(--ink)}
+.ligne__etat{padding-top:.2rem}
+@media (max-width:620px){
+  .ligne__item{grid-template-columns:64px minmax(0,1fr);gap:var(--s2) var(--s4)}
+  .ligne__vue{width:64px;grid-row:1 / span 3;align-self:start}
+  .ligne__n{grid-column:2;padding-top:0;font-size:.8rem}
+  .ligne__corps{grid-column:2}
+  .ligne__etat{grid-column:2;justify-self:start;margin-top:var(--s1);padding-top:0}
+}
+
+/* le film : un seul moment riche par page */
+.film{position:relative}
+.film video{width:100%;height:auto;display:block;background:#0f1012;border:1px solid var(--rule)}
+.film figcaption{margin-top:var(--s3);font-size:.9rem;color:var(--mute);max-width:34rem}
+.film figcaption b{display:block;color:var(--ink);font-weight:600;margin-bottom:.2rem}
+
+/* ---------- l'aveu : il occupe la place du prix, sans en prendre le ton ----------
+   Pas de pastille, pas de badge. Une pièce non mesurée se signale par une règle
+   grise, jamais par l'or : l'accent ne doit porter aucune information. */
+.statut{border-left:2px solid var(--rule-strong);padding-left:var(--s4);margin:var(--s6) 0 var(--s5)}
+.statut b{display:block;font-size:1.05rem;margin-bottom:.25rem}
+.statut p{margin:0;font-size:.95rem;color:var(--mute);max-width:32rem}
+
+/* ---------- le héro : la robe portée, pleine largeur ----------
+   Elle entre par la droite et traverse. La copie est au-dessus, jamais par-dessus :
+   du texte sur une vidéo ne tient ni au contraste ni au téléphone. */
+.hero__film{margin:0;position:relative}
+/* l'entrée translate la vidéo : on empêche qu'elle crée une barre de défilement */
+/* Sur un grand écran la colonne est plus large que haute : on cale la largeur du plan
+   sur la hauteur de fenêtre, sinon la mannequin déborde d'un écran entier. */
+.hero__film video{width:min(100%,52vh);height:auto;display:block;margin-inline:auto;background:var(--paper)}
+
+/* Pour qui refuse le mouvement, l'affiche EST le héros : même cadrage que le plan. */
+@media (prefers-reduced-motion:reduce){ .hero__film video{display:none}
+  .hero__film{background:url(media/walk-loop-poster.jpg) center/contain no-repeat;
+    aspect-ratio:720/1358;width:min(100%,52vh);margin-inline:auto} }
+.hero__film figcaption{font-size:.8125rem;color:var(--mute);padding-top:var(--s3);max-width:30rem}
+@media (max-width:620px){ .hero__film{margin-top:var(--s6)} }
+
+/* ---------- achat : la boîte est dans le héros, plus au bout de la page ---------- */
+.hero .buy{max-width:430px}
+.taille-aide{font-size:.84rem;color:var(--mute);margin:-.6rem 0 1.1rem}
+.taille-aide a{color:var(--pearl-ink)}
+.sizes.rappel label{border-color:var(--pearl)}
+.buy-size{font-variant-numeric:tabular-nums}
+/* trois vues, une seule image chargée en grand */
+.vues{display:flex;gap:var(--s2);margin-top:var(--s3);justify-content:center}
+.vues button{padding:0;border:1px solid var(--rule);background:var(--paper);cursor:pointer;line-height:0}
+.vues button[aria-pressed="true"]{border-color:var(--ink)}
+.vues button:focus-visible{outline:2px solid var(--pearl);outline-offset:2px}
+.hero__media .vues img{width:56px;height:75px;max-height:none;object-fit:cover;margin:0}
+/* barre collante : visible seulement quand aucune boîte d'achat n'est à l'écran */
+.achat-barre{position:fixed;left:0;right:0;bottom:0;z-index:40;display:flex;align-items:center;
+  justify-content:space-between;gap:var(--s4);background:var(--paper);border-top:1px solid var(--rule-strong);
+  padding:var(--s3) max(16px,env(safe-area-inset-right)) calc(var(--s3) + env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left));
+  transform:translateY(105%);transition:transform .25s ease;font-size:.92rem}
+.achat-barre.on{transform:none}
+.achat-barre small{display:block;color:var(--mute);font-size:.76rem}
+.achat-barre .btn{padding:var(--s3) var(--s5);white-space:nowrap}
+@media (prefers-reduced-motion:reduce){.achat-barre{transition:none}}
+#buy,#fit{scroll-margin-top:72px}
+/* La légende d'une image de héros suit l'image quand celle-ci est centrée (téléphone). */
+@media (max-width:820px){ .hero__media > figcaption{text-align:center} }
+
+/* ---------- les études : jamais sur le fond des vraies photographies ---------- */
+.band--etudes{background:#e9edf0;border-top:1px solid #78808a;border-bottom:1px solid #78808a}
+.etudes{list-style:none;margin:var(--s8) 0 0;padding:0;display:grid;grid-template-columns:repeat(5,1fr);gap:var(--s5)}
+.etude img{width:100%;height:auto;display:block;border:1px dashed #78808a;background:#fff}
+.etude .ligne__n{display:block;margin-top:var(--s3)}
+.etude h3{font-size:1rem;margin-top:var(--s1)}
+.etude h3 a{color:inherit;text-decoration:none}
+.etude p{font-size:.86rem;color:var(--mute);margin-top:var(--s1)}
+.etude__lien{display:inline-block;margin-top:var(--s2);font-size:.8rem;font-weight:600;letter-spacing:.06em;color:var(--ink)}
+@media (max-width:980px){.etudes{grid-template-columns:repeat(3,1fr)}}
+@media (max-width:620px){.etudes{grid-template-columns:repeat(2,1fr);gap:var(--s4)}}
+.etude__vue{position:relative;display:block}
+.etude__vue::before{content:"Design study";position:absolute;left:var(--s2);top:var(--s2);z-index:1;
+  background:#1e242a;color:#fff;font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+  padding:var(--s1) var(--s2)}
+
+/* ---------- langues : EN · FR · ES ---------- */
+.langues{display:flex;gap:var(--s3);font-size:.74rem;font-weight:600;letter-spacing:.12em}
+.langues a{color:var(--mute);text-decoration:none;padding:var(--s1) 0}
+.langues a[aria-current]{color:var(--ink);border-bottom:1px solid var(--pearl)}
+.topbar .inner{gap:var(--s5)}
+.topbar .langues{margin-left:var(--s5)}
+.foot .langues{margin-top:var(--s4)}
+@media (max-width:820px){.topbar .langues{display:none}}
+:lang(fr) .etude__vue::before{content:"Étude de style"}
+:lang(es) .etude__vue::before{content:"Estudio de diseño"}
+
+/* ---------- fiche produit au format maison de mode : accordéons ---------- */
+.acc{margin-top:var(--s8);border-top:1px solid var(--rule)}
+.acc details{border-bottom:1px solid var(--rule)}
+.acc summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;
+  padding:var(--s4) 0;font-size:.78rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary::after{content:"+";font-weight:400;font-size:1.1rem;letter-spacing:0}
+.acc details[open] summary::after{content:"–"}
+.acc .corps{padding:0 0 var(--s5);font-size:.92rem}
+.acc ul,.acc--plat ul{margin:0;padding-left:1.1em}
+.acc li,.acc--plat li{margin:.3em 0}
+.acc .tablewrap{margin-top:var(--s4)}
+.acc--plat{border:0;margin-top:var(--s3)}
+.h-sec{font-size:1rem;font-weight:600;margin-top:var(--s10);margin-bottom:var(--s3)}
+.statut-court{display:inline-block;margin:var(--s2) 0 var(--s4);font-size:.74rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--ink);padding:var(--s1) var(--s3)}
+.legende-taille{font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);padding:0}
+.hero__actions{display:flex;flex-wrap:wrap;gap:var(--s3);margin-top:var(--s6)}
+.galerie{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--s5);margin-top:var(--s6)}
+.galerie figure{margin:0}
+.galerie img,.galerie video{width:100%;height:auto;display:block}
+.galerie figcaption{font-size:.78rem;color:var(--mute);margin-top:var(--s2)}
+.galerie figcaption b{display:block;color:var(--ink);font-size:.8rem}
+@media (max-width:820px){.galerie{grid-template-columns:repeat(2,1fr);gap:var(--s3)}}
+.topbar .brand{flex-shrink:0}
+.topbar .brand img{flex-shrink:0;min-width:96px}
+@media (max-width:420px){.topnav{gap:var(--s3)}.topnav a{font-size:.66rem;letter-spacing:.08em}}
