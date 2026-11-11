@@ -22,11 +22,11 @@ const CHECKOUT = {
   // Un lien par taille — tableau de bord Stripe › Liens de paiement.
   // Laissez vide tant que le lien n'existe pas : le bouton le dira franchement.
   LINKS: {
-    XS: "",
-    S:  "",
-    M:  "",
-    L:  "",
-    XL: ""
+    XS: "https://buy.stripe.com/8x2dR27xbcTG26a5gh4c800",
+    S:  "https://buy.stripe.com/8x23cocRvcTGfX05gh4c801",
+    M:  "https://buy.stripe.com/bJedR27xbaLyh14aAB4c802",
+    L:  "https://buy.stripe.com/bJecMYbNr1aY3ae1014c803",
+    XL: "https://buy.stripe.com/7sYcMYg3H3j6dOS7op4c804"
   },
 
   // Utilisé seulement en mode "session".
