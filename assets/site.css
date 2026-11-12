@@ -709,3 +709,5 @@ hr{border:0;border-top:1px solid var(--rule);margin:0}
 .citation{margin:var(--s8) 0;padding:0 0 0 var(--s5);border-left:1px solid var(--ink)}
 .citation p{font-size:clamp(1.25rem,3.2vw,1.6rem);line-height:1.45;letter-spacing:-.005em;margin:0;max-width:34rem}
 .citation footer{margin-top:var(--s3);font-size:.86rem;color:var(--mute)}
+
+.perle-note{font-style:normal;font-size:.85rem;letter-spacing:.02em;color:var(--mute);margin-top:.8rem}
