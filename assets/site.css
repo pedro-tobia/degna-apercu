@@ -711,3 +711,5 @@ hr{border:0;border-top:1px solid var(--rule);margin:0}
 .citation footer{margin-top:var(--s3);font-size:.86rem;color:var(--mute)}
 
 .perle-note{font-style:normal;font-size:.85rem;letter-spacing:.02em;color:var(--mute);margin-top:.8rem}
+.portrait{margin:var(--s5) 0 0;max-width:26rem}
+.portrait img{display:block;width:100%;height:auto}
