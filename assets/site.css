@@ -34,6 +34,8 @@ body{
   font-weight:400;-webkit-font-smoothing:antialiased;
 }
 img,video{max-width:100%;height:auto;display:block}
+/* « hidden » doit toujours gagner : sans cela, display:block ci-dessus affiche une vidéo ou une image masquée */
+[hidden]{display:none !important}
 a{color:inherit}
 .min{min-width:0}
 
