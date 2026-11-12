@@ -661,3 +661,11 @@ hr{border:0;border-top:1px solid var(--rule);margin:0}
   .defile__photo[aria-hidden="true"]{display:none}
   .defile__photo{scroll-snap-align:start}
 }
+/* les films de décor sont des scènes entières : ils remplissent le cadre (la marche studio, elle, reste entière sur fond blanc) */
+.fiche__medias [data-couleur-seul] video,.fiche__medias [data-couleur-seul] img{object-fit:cover;object-position:50% 40%}
+/* bande d'images (moins de 900 px) : chaque vue garde un format portrait 3:4 ; sur tablette on voit
+   la suivante qui dépasse, au lieu d'une image étirée et rognée */
+@media (max-width:899px){
+  .fiche__medias .m{flex:0 0 min(100%, calc(min(78svh,133vw) * .75))}
+  .fiche__medias .m + .m{border-left:4px solid var(--paper)}
+}
