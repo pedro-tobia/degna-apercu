@@ -643,3 +643,19 @@ hr{border:0;border-top:1px solid var(--rule);margin:0}
   .silhouette__porte img{height:54svh;aspect-ratio:auto;object-fit:contain}
 }
 .pot{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+
+/* ---------- le défilé de l'accueil : onze couleurs qui passent lentement, sans fin ---------- */
+.defile{padding:var(--s12) 0 var(--s10);overflow:hidden;background:var(--paper)}
+.defile__piste{display:flex;gap:var(--s4);width:max-content;animation:defile 90s linear infinite}
+.defile:hover .defile__piste,.defile:focus-within .defile__piste{animation-play-state:paused}
+@keyframes defile{to{transform:translateX(-50%)}}
+.defile__photo{flex:0 0 auto;width:clamp(180px,22vw,300px);text-decoration:none;color:var(--ink)}
+.defile__photo img{width:100%;aspect-ratio:2/3;object-fit:cover;background:var(--paper-2)}
+.defile__photo span{display:block;margin-top:var(--s2);font-size:.78rem;letter-spacing:.06em;color:var(--mute)}
+.defile__photo:hover span,.defile__photo:focus-visible span{color:var(--ink)}
+.defile__legende{margin:var(--s6) auto 0;padding:0 var(--gut);max-width:1140px;font-size:.9rem;color:var(--mute)}
+@media (prefers-reduced-motion:reduce){
+  .defile__piste{animation:none;overflow-x:auto;width:auto;scroll-snap-type:x mandatory;padding:0 var(--gut)}
+  .defile__photo[aria-hidden="true"]{display:none}
+  .defile__photo{scroll-snap-align:start}
+}
