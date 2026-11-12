@@ -198,7 +198,7 @@
     var p = document.querySelector('.coloris .pastille[aria-pressed="true"]');
     var c = p && p.dataset.code; return COULEURS.indexOf(c) > -1 ? c : 'noir';
   }
-  function chemin(c, h, b) { return vue.dataset.base + c + '/' + h + '--' + b + '.jpg'; }
+  function chemin(c, h, b) { return vue.dataset.base + c + '/' + h + '--' + b + '.jpg' + (vue.dataset.v ? '?v=' + vue.dataset.v : ''); }
   /* Les vignettes des pièces (mannequin invisible) prennent aussi la couleur choisie. */
   function vignettes(c) {
     [].forEach.call(document.querySelectorAll('.option img[data-v-noir]'), function (i) {
