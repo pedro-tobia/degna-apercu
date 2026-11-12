@@ -192,9 +192,16 @@
   var sansFondu = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   function prix(n) { return lang === 'fr' ? n + ' $ US' : lang === 'es' ? n + ' US$' : '$' + n; }
   function choisi(g) { return document.querySelector('[data-cabine-' + g + '][aria-pressed="true"]'); }
+  /* La cabine suit la couleur choisie sur la fiche : une série de photos par couleur (cabine/<code>/). */
+  var COULEURS = ['noir', 'ivoire', 'navy', 'marron'];
+  function couleur() {
+    var p = document.querySelector('.coloris .pastille[aria-pressed="true"]');
+    var c = p && p.dataset.code; return COULEURS.indexOf(c) > -1 ? c : 'noir';
+  }
+  function chemin(c, h, b) { return vue.dataset.base + c + '/' + h + '--' + b + '.jpg'; }
   function maj() {
     var h = choisi('haut'), b = choisi('bas');
-    var src = vue.dataset.base + h.dataset.cabineHaut + '--' + b.dataset.cabineBas + '.jpg';
+    var src = chemin(couleur(), h.dataset.cabineHaut, b.dataset.cabineBas);
     vue.alt = h.dataset.nom + ' + ' + b.dataset.nom;
     if (vue.getAttribute('src') !== src) {
       if (sansFondu) vue.src = src;
@@ -210,6 +217,10 @@
       maj();
     });
   });
+  [].forEach.call(document.querySelectorAll('.coloris .pastille'), function (p) {
+    p.addEventListener('click', function () { setTimeout(maj, 0); });
+  });
+  maj();
   /* Réserver : la liste d'attente coche exactement les deux pièces de la tenue. */
   reserver.addEventListener('click', function (e) {
     var cles = [choisi('haut').dataset.cle, choisi('bas').dataset.cle];
@@ -217,10 +228,11 @@
     var m = document.getElementById('liste-courriel');
     if (m) { e.preventDefault(); document.getElementById('liste').scrollIntoView({ behavior: sansFondu ? 'auto' : 'smooth', block: 'center' }); setTimeout(function () { m.focus({ preventScroll: true }); }, 400); }
   });
-  /* Les photos des autres tenues se chargent en avance, pour un changement sans attente. */
+  /* Les photos des autres tenues de la couleur affichée se chargent en avance, pour un changement sans attente. */
   setTimeout(function () {
+    var c = couleur();
     [].forEach.call(document.querySelectorAll('[data-cabine-haut]'), function (h) {
-      [].forEach.call(document.querySelectorAll('[data-cabine-bas]'), function (b) { (new Image()).src = vue.dataset.base + h.dataset.cabineHaut + '--' + b.dataset.cabineBas + '.jpg'; });
+      [].forEach.call(document.querySelectorAll('[data-cabine-bas]'), function (b) { (new Image()).src = chemin(c, h.dataset.cabineHaut, b.dataset.cabineBas); });
     });
   }, 2500);
 })();
