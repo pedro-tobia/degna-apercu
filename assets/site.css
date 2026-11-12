@@ -669,3 +669,31 @@ hr{border:0;border-top:1px solid var(--rule);margin:0}
   .fiche__medias .m{flex:0 0 min(100%, calc(min(78svh,133vw) * .75))}
   .fiche__medias .m + .m{border-left:4px solid var(--paper)}
 }
+
+/* =====================================================================
+   PLEIN PIED (2026-11-12) : toute vidéo et toute vue portée de la galerie montre la mannequin entière.
+   Les grandes vues passent en 9:16 (le format des films) : un film n'est jamais rogné, une photo 3:4
+   ne perd que ses marges latérales, jamais la tête ni les pieds.
+   ===================================================================== */
+.fiche__medias .m--grand img,.fiche__medias .m--grand video{object-position:50% 50%}
+.fiche__medias .m--film video{object-fit:cover}
+@media (max-width:899px){
+  .fiche__medias .m{flex:0 0 min(100%, calc(min(84svh,178vw) * .5625))}
+  .fiche__medias img,.fiche__medias video{height:min(84svh,178vw)}
+  .fiche__medias .m--petit{flex-basis:min(100%, calc(min(84svh,178vw) * .75))}
+  .fiche__compteur{top:calc(min(84svh,178vw) - 36px)}
+}
+@media (min-width:900px){
+  .fiche__medias .m--grand img,.fiche__medias .m--grand video{aspect-ratio:9/16}
+}
+
+/* =====================================================================
+   COLORIS À VENIR (2026-11-12) : une vignette voilée, un soupçon de couleur jamais nommé,
+   qui mène au formulaire « d'autres coloris sont en route ».
+   ===================================================================== */
+.vignette--mystere{position:relative;overflow:hidden;display:block;text-decoration:none}
+.vignette__voile{position:absolute;inset:-30%;filter:blur(9px);opacity:.85;
+  background:conic-gradient(from 40deg,#a6c4e2,#e8b2bc,#e2c460,#188048,#601c28,#9c5e2c,#686846,#a6c4e2)}
+.vignette--mystere::after{content:"";position:absolute;inset:0;background:color-mix(in srgb,var(--paper) 55%,transparent)}
+.vignette--mystere:hover .vignette__voile{opacity:1}
+.liste--coloris{margin-top:var(--s6)}

@@ -162,6 +162,26 @@
   });
 })();
 
+/* Coloris à venir : courriel seul ; service de formulaires s'il est branché, sinon courriel déjà rédigé. */
+(function () {
+  var f = document.querySelector('form[data-coloris]'); if (!f) return;
+  var etat = f.querySelector('.liste__etat');
+  f.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var d = new FormData(f), url = f.dataset.url, bouton = f.querySelector('button[type="submit"]');
+    if (!url) {
+      location.href = 'mailto:hello@degna.ca?subject=' + encodeURIComponent(f.dataset.sujet) + '&body=' + encodeURIComponent(d.get('email'));
+      return;
+    }
+    bouton.disabled = true;
+    fetch(url, { method: 'POST', body: d, headers: { Accept: 'application/json' } }).then(function (r) {
+      if (!r.ok) throw new Error(r.status);
+      etat.className = 'liste__etat ok'; etat.textContent = etat.dataset.ok; f.reset();
+    }).catch(function () { etat.className = 'liste__etat'; etat.innerHTML = etat.dataset.err; })
+      .then(function () { bouton.disabled = false; });
+  });
+})();
+
 /* Cabine d'essayage : un clic sur un haut ou un bas change la photo, le total, et prépare la réservation. */
 (function () {
   var vue = document.getElementById('cabine-vue'); if (!vue) return;
