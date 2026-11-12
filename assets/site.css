@@ -701,3 +701,6 @@ hr{border:0;border-top:1px solid var(--rule);margin:0}
 /* Liste d'attente des pièces (2026-11-12) : courriel + taille, la couleur suit la pastille. */
 .liste--piece{margin-top:var(--s5)}
 .liste__ligne select{flex:0 0 auto;font:inherit;padding:var(--s3);border:1px solid var(--rule-strong);background:var(--paper);color:var(--ink)}
+
+/* L'interlude n'a plus que son texte et son plan de taille (vidéo métro retirée le 2026-11-12). */
+@media (min-width:900px){ .interlude{grid-template-columns:minmax(0,1fr)} .interlude__texte{max-width:56rem;margin-inline:auto} }
