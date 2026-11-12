@@ -19,14 +19,37 @@
 const CHECKOUT = {
   mode: "links",
 
-  // Un lien par taille — tableau de bord Stripe › Liens de paiement.
-  // Laissez vide tant que le lien n'existe pas : le bouton le dira franchement.
+  // Un lien par couleur et par taille — tableau de bord Stripe › Liens de paiement.
+  // Une couleur absente d'ici n'est pas en vente : la fiche affiche « Bientôt disponible ».
   LINKS: {
-    XS: "https://buy.stripe.com/8x2dR27xbcTG26a5gh4c800",
-    S:  "https://buy.stripe.com/8x23cocRvcTGfX05gh4c801",
-    M:  "https://buy.stripe.com/bJedR27xbaLyh14aAB4c802",
-    L:  "https://buy.stripe.com/bJecMYbNr1aY3ae1014c803",
-    XL: "https://buy.stripe.com/7sYcMYg3H3j6dOS7op4c804"
+    noir: {
+      XS: "https://buy.stripe.com/8x2dR27xbcTG26a5gh4c800",
+      S:  "https://buy.stripe.com/8x23cocRvcTGfX05gh4c801",
+      M:  "https://buy.stripe.com/bJedR27xbaLyh14aAB4c802",
+      L:  "https://buy.stripe.com/bJecMYbNr1aY3ae1014c803",
+      XL: "https://buy.stripe.com/7sYcMYg3H3j6dOS7op4c804"
+    },
+    ivoire: {
+      XS: "https://buy.stripe.com/fZudR2eZDf1ObGKfUV4c805",
+      S:  "https://buy.stripe.com/3cI5kw18NaLyfX0cIJ4c806",
+      M:  "https://buy.stripe.com/fZudR25p38DqdOSfUV4c807",
+      L:  "https://buy.stripe.com/dRmfZa3gV5re9yC1014c808",
+      XL: "https://buy.stripe.com/7sYdR23gV5reaCGeQR4c809"
+    },
+    navy: {
+      XS: "https://buy.stripe.com/4gMaEQ18N3j6h148st4c80a",
+      S:  "https://buy.stripe.com/8x28wI3gVg5S4ei8st4c80b",
+      M:  "https://buy.stripe.com/4gM6oAcRv4nah14bEF4c80c",
+      L:  "https://buy.stripe.com/cNifZadVz2f24eicIJ4c80d",
+      XL: "https://buy.stripe.com/fZueV62cR8Dq6mqcIJ4c80e"
+    },
+    marron: {
+      XS: "https://buy.stripe.com/9B65kw6t7aLycKOfUV4c80f",
+      S:  "https://buy.stripe.com/3cIeV6dVz06UfX07op4c80g",
+      M:  "https://buy.stripe.com/3cIeV6bNrdXKdOS7op4c80h",
+      L:  "https://buy.stripe.com/eVqdR2dVz4na9yC7op4c80i",
+      XL: "https://buy.stripe.com/3cIbIU3gVg5SdOS8st4c80j"
+    }
   },
 
   // Utilisé seulement en mode "session".
@@ -56,8 +79,14 @@ function say(node, html) {
   node.innerHTML = html;
 }
 
+// La couleur choisie sur la fiche (pastille enfoncée) ; noir par défaut.
+function couleurChoisie() {
+  const b = document.querySelector('.coloris .pastille[aria-pressed="true"]');
+  return (b && b.dataset.code) || "noir";
+}
+
 function startLink(size, note, button) {
-  const url = CHECKOUT.LINKS[size];
+  const url = (CHECKOUT.LINKS[couleurChoisie()] || {})[size];
   if (!url) {
     say(note, MSG.absent);
     return;

@@ -94,8 +94,10 @@
       if (film) { if (v.getAttribute('src') !== film) { v.poster = b.dataset.decor || ''; v.src = film; } var p = v.play(); if (p && p.catch) p.catch(function () {}); }
       else if (!v.paused) v.pause();
     });
-    if (buy && bientot) { buy.hidden = !noir; bientot.hidden = noir; }
-    var barre = document.getElementById('achat-barre'); if (barre) barre.style.display = noir ? '' : 'none';
+    /* En vente : la couleur a ses liens de paiement (checkout.js) ; sinon « Bientôt disponible ». */
+    var vente = noir || (typeof CHECKOUT !== 'undefined' && !!CHECKOUT.LINKS[b.dataset.code]);
+    if (buy && bientot) { buy.hidden = !vente; bientot.hidden = vente; }
+    var barre = document.getElementById('achat-barre'); if (barre) barre.style.display = vente ? '' : 'none';
     if (maj && history.replaceState) history.replaceState(null, '', noir ? location.pathname : '#' + b.dataset.code);
   }
   p.forEach(function (b) { b.addEventListener('click', function () { choisir(b, true); }); });
