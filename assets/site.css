@@ -704,3 +704,8 @@ hr{border:0;border-top:1px solid var(--rule);margin:0}
 
 /* L'interlude n'a plus que son texte et son plan de taille (vidéo métro retirée le 2026-11-12). */
 @media (min-width:900px){ .interlude{grid-template-columns:minmax(0,1fr)} .interlude__texte{max-width:56rem;margin-inline:auto} }
+
+/* Page La maison : la phrase de Pedro, signée (2026-11-12). */
+.citation{margin:var(--s8) 0;padding:0 0 0 var(--s5);border-left:1px solid var(--ink)}
+.citation p{font-size:clamp(1.25rem,3.2vw,1.6rem);line-height:1.45;letter-spacing:-.005em;margin:0;max-width:34rem}
+.citation footer{margin-top:var(--s3);font-size:.86rem;color:var(--mute)}
