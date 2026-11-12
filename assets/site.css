@@ -697,3 +697,7 @@ hr{border:0;border-top:1px solid var(--rule);margin:0}
 .vignette--mystere::after{content:"";position:absolute;inset:0;background:color-mix(in srgb,var(--paper) 55%,transparent)}
 .vignette--mystere:hover .vignette__voile{opacity:1}
 .liste--coloris{margin-top:var(--s6)}
+
+/* Liste d'attente des pièces (2026-11-12) : courriel + taille, la couleur suit la pastille. */
+.liste--piece{margin-top:var(--s5)}
+.liste__ligne select{flex:0 0 auto;font:inherit;padding:var(--s3);border:1px solid var(--rule-strong);background:var(--paper);color:var(--ink)}

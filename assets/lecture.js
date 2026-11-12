@@ -199,8 +199,16 @@
     var c = p && p.dataset.code; return COULEURS.indexOf(c) > -1 ? c : 'noir';
   }
   function chemin(c, h, b) { return vue.dataset.base + c + '/' + h + '--' + b + '.jpg'; }
+  /* Les vignettes des pièces (mannequin invisible) prennent aussi la couleur choisie. */
+  function vignettes(c) {
+    [].forEach.call(document.querySelectorAll('.option img[data-v-noir]'), function (i) {
+      var s = i.getAttribute('data-v-' + c) || i.getAttribute('data-v-noir');
+      if (i.getAttribute('src') !== s) i.src = s;
+    });
+  }
   function maj() {
     var h = choisi('haut'), b = choisi('bas');
+    vignettes(couleur());
     var src = chemin(couleur(), h.dataset.cabineHaut, b.dataset.cabineBas);
     vue.alt = h.dataset.nom + ' + ' + b.dataset.nom;
     if (vue.getAttribute('src') !== src) {
