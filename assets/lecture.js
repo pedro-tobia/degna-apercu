@@ -224,8 +224,24 @@
       lien.href = f ? f + (c === 'noir' ? '' : '#' + c) : '#liste';
     });
     total.textContent = h.dataset.nom + ' ' + prix(h.dataset.prix) + ' + ' + b.dataset.nom + ' ' + prix(b.dataset.prix) +
-                        ' = ' + prix(Number(h.dataset.prix) + Number(b.dataset.prix));
+                        ' = ' + prix(Number(h.dataset.prix) + Number(b.dataset.prix));    var cmd = document.getElementById('cabine-commander');
+    if (cmd) cmd.textContent = cmd.dataset.txt + ' · ' + prix(Number(h.dataset.prix) + Number(b.dataset.prix));
   }
+  /* Un seul paiement pour la tenue : le serveur DEGNA ouvre une session Stripe avec le haut et le bas.
+     S'il ne répond pas, la cliente garde les deux liens « une pièce à la fois » juste en dessous. */
+  var set = document.getElementById('cabine-set');
+  if (set) document.getElementById('cabine-commander').addEventListener('click', function () {
+    var etat = set.querySelector('.cabine__etat'), bouton = this;
+    var th = document.getElementById('cabine-taille-haut'), tb = document.getElementById('cabine-taille-bas');
+    if (!th.value || !tb.value) { etat.textContent = set.dataset.choisir; (th.value ? tb : th).focus(); return; }
+    var c = couleur();
+    var articles = [{ piece: choisi('haut').dataset.cle, couleur: c, taille: th.value }, { piece: choisi('bas').dataset.cle, couleur: c, taille: tb.value }];
+    bouton.disabled = true; etat.textContent = set.dataset.attente;
+    fetch(set.dataset.url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ articles: articles, langue: set.dataset.langue }) })
+      .then(function (r) { return r.json(); })
+      .then(function (j) { if (j && j.ok && /^https:\/\/checkout\.stripe\.com\//.test(j.url)) location.href = j.url; else throw 0; })
+      .catch(function () { bouton.disabled = false; etat.textContent = set.dataset.err; });
+  });
   [].forEach.call(document.querySelectorAll('[data-cabine-haut],[data-cabine-bas]'), function (o) {
     o.addEventListener('click', function () {
       var g = o.hasAttribute('data-cabine-haut') ? 'haut' : 'bas';

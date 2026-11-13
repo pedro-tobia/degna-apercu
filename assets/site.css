@@ -794,3 +794,12 @@ hr{border:0;border-top:1px solid var(--rule);margin:0}
 }
 
 .cabine__achats{display:grid;gap:var(--s2);margin:var(--s4) 0 0}
+
+/* Cabine : un seul paiement pour la tenue (tailles du haut et du bas, puis un bouton) */
+.cabine__set{display:grid;gap:var(--s2);margin:var(--s4) 0 0}
+.cabine__tailles{display:grid;grid-template-columns:1fr 1fr;gap:var(--s2)}
+.cabine__tailles label{display:grid;gap:4px;font-size:.8rem;color:var(--mute)}
+.cabine__tailles select{font:inherit;font-size:1rem;color:var(--ink);padding:.7rem .6rem;border:1px solid currentColor;border-radius:0;background:transparent}
+.cabine__etat{font-size:.86rem;color:var(--mute);margin:0;min-height:1.2em}
+.cabine__ou{font-size:.8rem;color:var(--mute);margin:var(--s3) 0 0 !important;text-align:center}
+.cabine__ou + .cabine__achats{margin-top:var(--s2)}
