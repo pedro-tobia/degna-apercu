@@ -244,3 +244,43 @@
     });
   }, 2500);
 })();
+
+/* Consentement exprès (Loi 25, LCAP) : le bouton reste inactif tant que la case n'est pas cochée. */
+(function () {
+  [].forEach.call(document.querySelectorAll('form[data-consent]'), function (f) {
+    var c = f.querySelector('input[name="consentement"]'), b = f.querySelector('button[type="submit"]');
+    if (!c || !b) return;
+    var maj = function () { b.disabled = !c.checked; };
+    c.addEventListener('change', maj); f.addEventListener('reset', function () { setTimeout(maj, 0); }); maj();
+  });
+})();
+
+/* Réserver en images : chaque pastille est une case « Nom (Couleur) ». Toucher une pastille la choisit
+   et met la photo de la pièce dans cette couleur ; on peut choisir plusieurs couleurs d'une même pièce.
+   Le champ couleur récapitule les couleurs, le résumé compte les choix. */
+(function () {
+  [].forEach.call(document.querySelectorAll('form.reserve'), function (f) {
+    var resume = f.querySelector('input[name="couleur"]'), etat = f.querySelector('.reserve__resume');
+    function maj() {
+      var choisies = [].slice.call(f.querySelectorAll('.pastille-res input:checked'));
+      if (resume) resume.value = choisies.map(function (c) { return c.dataset.mot; }).join(' · ');
+      [].forEach.call(f.querySelectorAll('.carte-res'), function (carte) {
+        var mots = [].slice.call(carte.querySelectorAll('input:checked')).map(function (c) { return c.dataset.mot; });
+        carte.querySelector('.carte-res__choix').textContent = mots.join(' · ');
+        carte.classList.toggle('est-choisie', mots.length > 0);
+      });
+      if (etat) { var n = choisies.length; etat.textContent = n === 0 ? etat.dataset.rien : n === 1 ? etat.dataset.un : etat.dataset.plus.replace('{n}', n); }
+    }
+    f.addEventListener('change', function (e) {
+      var c = e.target;
+      if (c.matches('.pastille-res input')) {
+        var carte = c.closest('.carte-res'), img = carte.querySelector('img');
+        var code = c.checked ? c.dataset.code : ((carte.querySelector('input:checked') || {}).dataset || {}).code;
+        if (code && carte.getAttribute('data-vue-' + code)) img.src = carte.getAttribute('data-vue-' + code);
+      }
+      maj();
+    });
+    f.addEventListener('reset', function () { setTimeout(maj, 0); });
+    maj();
+  });
+})();

@@ -117,8 +117,9 @@ body::before{
      ne mord qu'à partir de la tablette, où la colonne devient trop large. */
   /* On plafonne par la HAUTEUR de fenêtre, en laissant la largeur suivre :
      c'est la seule mesure qui garde le titre au-dessus de la ligne de flottaison
-     quel que soit le téléphone. 38vh de large = 72vh de haut au rapport du plan. */
-  .hero .hero__media video{width:clamp(240px,37.5vh,100%);max-width:420px;height:auto;
+     quel que soit le téléphone. 23,6svh de large = 44svh de haut au rapport du plan (conseil du 13 nov. :
+     le bouton « Précommander » doit tenir dans le premier écran d'un iPhone SE). */
+  .hero .hero__media video{width:clamp(170px,23.6svh,100%);max-width:420px;height:auto;
     max-height:none;object-fit:contain;display:block;margin-inline:auto;aspect-ratio:auto}
   /* Chaque pixel entre le plan et le titre est pris à la mannequin : on resserre
      l'espacement du héros plutôt que de la rapetisser. */
@@ -439,8 +440,6 @@ hr{border:0;border-top:1px solid var(--rule);margin:0}
 .pastille[aria-pressed="true"]{outline:1px solid var(--ink);outline-offset:2px}
 .pastille:focus-visible{outline:2px solid var(--pearl);outline-offset:2px}
 .pastille--fixe{display:inline-block;width:16px;height:16px;cursor:default;box-shadow:none}
-.coloris-accueil{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:var(--s4);font-size:.86rem;color:var(--mute)}
-.coloris-accueil span:last-child{margin-left:var(--s2)}
 .apercu-couleur{font-size:.78rem;color:var(--mute);margin-top:var(--s2);text-align:center}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .vues button[hidden],[data-noir-seul][hidden],[data-couleur-seul][hidden],.film video[hidden],.film img[hidden]{display:none}
@@ -472,7 +471,6 @@ hr{border:0;border-top:1px solid var(--rule);margin:0}
 .carrousel__fleche:disabled{opacity:.2;cursor:default}
 .carrousel--plein .carrousel__fleche{display:none}
 @media (max-width:820px){.carrousel__fleche{display:none}.vignette{flex-basis:68px;width:68px;height:68px}}
-.coloris-accueil{gap:var(--s2)}
 .vignette--petite{flex:0 0 44px;width:44px;height:44px;display:inline-block}
 .vignette--petite::after{width:10px;height:10px;left:calc(50% - 5px);top:calc(49% - 5px)}
 .vignette--petite .vignette__css::before,.vignette--petite .vignette__css::after{height:3px}
@@ -646,21 +644,6 @@ hr{border:0;border-top:1px solid var(--rule);margin:0}
 }
 .pot{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 
-/* ---------- le défilé de l'accueil : onze couleurs qui passent lentement, sans fin ---------- */
-.defile{padding:var(--s12) 0 var(--s10);overflow:hidden;background:var(--paper)}
-.defile__piste{display:flex;gap:var(--s4);width:max-content;animation:defile 90s linear infinite}
-.defile:hover .defile__piste,.defile:focus-within .defile__piste{animation-play-state:paused}
-@keyframes defile{to{transform:translateX(-50%)}}
-.defile__photo{flex:0 0 auto;width:clamp(180px,22vw,300px);text-decoration:none;color:var(--ink)}
-.defile__photo img{width:100%;aspect-ratio:2/3;object-fit:cover;background:var(--paper-2)}
-.defile__photo span{display:block;margin-top:var(--s2);font-size:.78rem;letter-spacing:.06em;color:var(--mute)}
-.defile__photo:hover span,.defile__photo:focus-visible span{color:var(--ink)}
-.defile__legende{margin:var(--s6) auto 0;padding:0 var(--gut);max-width:1140px;font-size:.94rem;color:var(--mute)}
-@media (prefers-reduced-motion:reduce){
-  .defile__piste{animation:none;overflow-x:auto;width:auto;scroll-snap-type:x mandatory;padding:0 var(--gut)}
-  .defile__photo[aria-hidden="true"]{display:none}
-  .defile__photo{scroll-snap-align:start}
-}
 /* les films de décor sont des scènes entières : ils remplissent le cadre (la marche studio, elle, reste entière sur fond blanc) */
 .fiche__medias [data-couleur-seul] video,.fiche__medias [data-couleur-seul] img{object-fit:cover;object-position:50% 40%}
 /* bande d'images (moins de 900 px) : chaque vue garde un format portrait 3:4 ; sur tablette on voit
@@ -713,3 +696,80 @@ hr{border:0;border-top:1px solid var(--rule);margin:0}
 .perle-note{font-style:normal;font-size:.85rem;letter-spacing:.02em;color:var(--mute);margin-top:.8rem}
 .portrait{margin:var(--s5) 0 0;max-width:26rem}
 .portrait img{display:block;width:100%;height:auto}
+
+/* ---------- La collection (conseil du 2026-11-13) : désir, signature, vestiaire, action ----------
+   Tout se lit au seul défilement vertical : aucun carrousel, aucun survol nécessaire.
+   Les tuiles sont cadrées sous le menton (--coupe) : l'œil va au vêtement. */
+.collection{background:var(--paper);padding:var(--s16) 0 var(--s12);scroll-margin-top:110px}
+.collection__entete{max-width:40rem}
+.monde{font-family:var(--logo,inherit);font-size:.74rem;letter-spacing:.24em;text-transform:uppercase;color:var(--mute);margin:0 0 var(--s3)}
+.collection__entete .lede{margin-top:var(--s3)}
+.petit-titre{font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;font-weight:500;color:var(--mute);margin:0 0 var(--s4)}
+
+.heros-robe{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:end;
+  max-width:1140px;margin:var(--s12) auto 0;padding:0 var(--gut)}
+.heros-robe__film{display:block;background:var(--paper-2);aspect-ratio:4/5;overflow:hidden}
+.heros-robe__film video{width:100%;height:100%;object-fit:cover;object-position:50% 70%;display:block}
+.heros-robe__n{font-size:.86rem;letter-spacing:.06em;color:var(--mute);margin:0 0 var(--s2)}
+.heros-robe__texte h3{font-size:clamp(1.35rem,3.4vw,1.8rem);margin:0 0 var(--s3)}
+.heros-robe__texte h3 a{text-decoration:none}
+.heros-robe__texte p{margin:0 0 var(--s3);max-width:30rem}
+.heros-robe__etat{font-weight:500;color:var(--ink)}
+
+.quatre,.signature,.serie{margin-top:var(--s16)}
+.tuiles{list-style:none;margin:0;padding:0;display:grid;gap:var(--s2)}
+.tuiles--quatre{grid-template-columns:repeat(4,minmax(0,1fr))}
+.tuiles--serie{grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s6) var(--s2);margin-top:var(--s6)}
+.tuile{display:block;text-decoration:none;color:var(--ink)}
+.tuile__vue{--coupe:.2;display:block;position:relative;aspect-ratio:3/4;overflow:hidden;background:#fff}
+/* l'image garde son format ; on la grandit de 1/(1-coupe) et on l'ancre en bas : le haut (le visage) sort du cadre */
+.tuile__vue img{position:absolute;left:50%;bottom:0;height:calc(100% / (1 - var(--coupe)));width:auto;max-width:none;
+  transform:translateX(-50%);transition:transform .6s ease}
+.tuile:hover .tuile__vue img,.tuile:focus-visible .tuile__vue img{transform:translateX(-50%) scale(1.03);transform-origin:50% 100%}
+.tuile__nom{display:block;margin-top:var(--s3);font-size:.94rem}
+.tuile__etat{display:block;font-size:.86rem;color:var(--mute);margin-top:2px}
+.tuile:hover .tuile__nom,.tuile:focus-visible .tuile__nom{text-decoration:underline;text-underline-offset:3px}
+
+.signature{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:center}
+.signature__vues{display:grid;grid-template-columns:1fr 1fr;gap:var(--s2)}
+.signature__vues img{width:100%;aspect-ratio:1;object-fit:cover;display:block;background:var(--paper-2)}
+.signature__phrase{font-family:var(--read);font-size:clamp(1.3rem,3.2vw,1.7rem);line-height:1.4;margin:0 0 var(--s4)}
+.lien{color:var(--ink);text-underline-offset:3px}
+
+.reserve-bande{padding:var(--s12) 0;scroll-margin-top:110px}
+.reserve__grille{display:grid;grid-template-columns:1fr;gap:clamp(24px,4vw,56px);align-items:start}
+.reserve__choix{border:0;margin:0 0 var(--s4);padding:0;width:100%;min-width:0;display:block;flex:1 1 100%}
+.reserve__choix legend{font-size:.94rem;color:var(--ink);margin-bottom:var(--s4);padding:0}
+.cartes-res{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:var(--s3)}
+.carte-res{display:flex;flex-direction:column;align-items:center;text-align:center}
+.carte-res__vue{display:block;width:100%;aspect-ratio:3/4;background:#fff;border:1px solid transparent;transition:border-color .2s}
+.carte-res__vue img{width:100%;height:100%;object-fit:contain;display:block}
+.carte-res.est-choisie .carte-res__vue{border-color:var(--ink)}
+.carte-res__nom{margin-top:var(--s2);font-size:.94rem}
+.carte-res__pastilles{display:flex;gap:9px;justify-content:center;margin-top:var(--s2);padding:4px 0}
+.pastille-res{position:relative;width:26px;height:26px;border-radius:50%;cursor:pointer;flex:0 0 auto;
+  background:var(--c1);box-shadow:inset 0 0 0 1px rgba(0,0,0,.14)}
+.pastille-res input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer}
+.pastille-res:has(input:checked){box-shadow:inset 0 0 0 1px rgba(0,0,0,.14),0 0 0 2px #fff,0 0 0 3.5px var(--ink)}
+.pastille-res:has(input:focus-visible){outline:2px solid var(--ink);outline-offset:3px}
+.carte-res__choix{min-height:1.3em;margin-top:6px;font-size:.8rem;color:var(--ink)}
+.reserve__resume{margin:var(--s3) 0 0;font-size:.86rem;color:var(--mute)}
+.reserve__courriel{display:block;width:100%}
+.reserve__courriel span{display:block;font-size:.8rem;color:var(--mute);margin-bottom:4px}
+.reserve__courriel input{width:100%;min-height:48px;padding:0 var(--s3);border:1px solid var(--rule);background:#fff;font:inherit;color:var(--ink);border-radius:0}
+.reserve__accord{display:flex;gap:var(--s2);align-items:flex-start;margin:var(--s4) 0;font-size:.86rem;color:var(--mute);line-height:1.45}
+.reserve__accord input{margin-top:3px;width:18px;height:18px;flex:0 0 auto;accent-color:var(--ink)}
+.reserve .btn[disabled]{opacity:.35;cursor:not-allowed}
+
+@media (max-width:820px){
+  .collection{padding:var(--s12) 0 var(--s10)}
+  .heros-robe{grid-template-columns:1fr;padding:0;margin-top:var(--s8)}
+  .heros-robe__texte{padding:0 var(--gut)}
+  .tuiles--quatre{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .tuiles--serie{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s5) var(--s2)}
+  .signature{grid-template-columns:1fr;gap:var(--s5)}
+  .reserve__grille{grid-template-columns:1fr;gap:var(--s5)}
+  .cartes-res{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s5) var(--s3)}
+  .quatre,.signature,.serie{margin-top:var(--s12)}
+}
+@media (prefers-reduced-motion:reduce){ .tuile__vue img{transition:none} }

@@ -21,6 +21,20 @@
     try { navigator.sendBeacon(URL_MESURE, new Blob([JSON.stringify(corps)], { type: 'text/plain' })); } catch (e) {}
   }
   envoyer(q.get('order') === 'complete' ? 'commande' : 'vue');
+  // Accueil : la première fois qu'un bloc entre à l'écran (vu-<bloc>), et chaque clic de tuile (clic-<nom>).
+  if ('IntersectionObserver' in window) {
+    var vus = {}, obs = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        var n = e.target.getAttribute('data-bloc');
+        if (e.isIntersecting && !vus[n]) { vus[n] = 1; envoyer('vu-' + n); obs.unobserve(e.target); }
+      });
+    }, { threshold: 0.35 });
+    [].forEach.call(document.querySelectorAll('[data-bloc]'), function (el) { obs.observe(el); });
+  }
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest && e.target.closest('[data-clic]');
+    if (t) envoyer('clic-' + t.getAttribute('data-clic'));
+  }, true);
   document.addEventListener('submit', function (e) {
     var f = e.target;
     if (f.matches('form[data-buy]') && f.querySelector('input[name="size"]:checked, input[type="radio"]:checked')) envoyer('clic_precommande');
