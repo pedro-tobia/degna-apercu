@@ -803,3 +803,6 @@ hr{border:0;border-top:1px solid var(--rule);margin:0}
 .cabine__etat{font-size:.86rem;color:var(--mute);margin:0;min-height:1.2em}
 .cabine__ou{font-size:.8rem;color:var(--mute);margin:var(--s3) 0 0 !important;text-align:center}
 .cabine__ou + .cabine__achats{margin-top:var(--s2)}
+
+/* Hero : ce que veut dire Sempre, sous le titre */
+.hero__sens{max-width:34ch;margin:var(--s3) 0 0;font-size:1rem;line-height:1.55;color:var(--ink)}
