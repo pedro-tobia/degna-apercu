@@ -773,3 +773,24 @@ hr{border:0;border-top:1px solid var(--rule);margin:0}
   .quatre,.signature,.serie{margin-top:var(--s12)}
 }
 @media (prefers-reduced-motion:reduce){ .tuile__vue img{transition:none} }
+
+/* ---------- Arborescence du 2026-11-13 : Accueil / Habillez-moi / Collection ---------- */
+.portes{margin-top:var(--s16)}
+.tuiles--portes{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s3)}
+.tuiles--portes .tuile__nom{font-size:1.05rem}
+.collection--page{padding-top:var(--s10)}
+.collection--page .collection__entete h1{margin:0}
+.dispo{margin-top:var(--s10)}
+.dispo h2,.collection--page .serie h2{font-size:clamp(1.3rem,3vw,1.7rem);margin:0}
+.collection--page .heros-robe{margin-top:var(--s5)}
+.collection--page .quatre{margin-top:var(--s8)}
+.collection--page .serie .lede{margin-top:var(--s2)}
+.cabine-couleurs{margin-top:var(--s5);max-width:34rem}
+.silhouette--page{padding-top:var(--s4)}
+.renvoi-cabine .lien{font-size:1.05rem}
+@media (max-width:820px){
+  .portes{margin-top:var(--s12)}
+  .tuiles--portes{gap:var(--s2)}
+}
+
+.cabine__achats{display:grid;gap:var(--s2);margin:var(--s4) 0 0}

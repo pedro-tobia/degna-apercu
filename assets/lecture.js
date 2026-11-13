@@ -215,6 +215,14 @@
       if (sansFondu) vue.src = src;
       else { vue.classList.add('fondu'); setTimeout(function () { vue.onload = function () { vue.classList.remove('fondu'); }; vue.src = src; }, 180); }
     }
+    /* Une pièce en vente mène à sa fiche, dans la couleur choisie ; une pièce à venir, à la liste d'attente. */
+    var r = reserver, c = couleur();
+    [['haut', h], ['bas', b]].forEach(function (x) {
+      var lien = document.getElementById('cabine-achat-' + x[0]); if (!lien) return;
+      var o = x[1], f = o.dataset.fiche;
+      lien.textContent = f ? r.dataset.cmd + ' : ' + o.dataset.court + ' · ' + prix(o.dataset.prix) : o.dataset.court + ' · ' + r.dataset.bientot;
+      lien.href = f ? f + (c === 'noir' ? '' : '#' + c) : '#liste';
+    });
     total.textContent = h.dataset.nom + ' ' + prix(h.dataset.prix) + ' + ' + b.dataset.nom + ' ' + prix(b.dataset.prix) +
                         ' = ' + prix(Number(h.dataset.prix) + Number(b.dataset.prix));
   }
@@ -282,5 +290,25 @@
     });
     f.addEventListener('reset', function () { setTimeout(maj, 0); });
     maj();
+  });
+})();
+
+/* Précommande payée d'une pièce : taille + couleur choisies → lien de paiement Stripe de cette combinaison.
+   Les liens sont dans data-liens ({couleur: {taille: url}}), écrits par stripe/creer-liens-pieces.py. */
+(function () {
+  var f = document.querySelector('form[data-precommande]'); if (!f) return;
+  var liens = {}; try { liens = JSON.parse(f.dataset.liens || '{}'); } catch (e) {}
+  var note = f.querySelector('.precommande__note');
+  if (new URLSearchParams(location.search).get('order') === 'complete') {
+    var merci = document.querySelector('.order-merci'); if (merci) merci.hidden = false;
+  }
+  f.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var t = f.querySelector('input[name="size"]:checked');
+    if (!t) { note.textContent = f.dataset.msgTaille; return; }
+    var p = document.querySelector('.coloris .pastille[aria-pressed="true"]'), c = (p && p.dataset.code) || 'noir';
+    var url = (liens[c] || {})[t.value];
+    if (!url) { note.textContent = f.dataset.msgCouleur; return; }
+    note.textContent = ''; f.querySelector('button').disabled = true; location.assign(url);
   });
 })();
