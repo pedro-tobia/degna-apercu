@@ -930,29 +930,21 @@ hr{border:0;border-top:1px solid var(--rule);margin:0}
 .fiche__achat .eyebrow a,.hero__copy .eyebrow a{color:inherit;text-decoration:none}
 
 /* ---- Porte d'Habillez-moi : la cabine figée (conseil du 2026-11-13) ---- */
-.cabine-mini{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:var(--s2);aspect-ratio:4/5;padding:var(--s3);box-sizing:border-box;background:#fff;overflow:hidden}
-.cabine-mini__pieces{display:flex;flex-direction:column;justify-content:center;gap:var(--s2)}
-.cabine-mini__pieces img{display:block;width:100%;height:auto;aspect-ratio:3/4;object-fit:contain;background:#fff;border:1px solid var(--ink);box-shadow:inset 0 0 0 1px var(--ink)}
-.cabine-mini__porte{--coupe:.2;position:relative;overflow:hidden}
-.cabine-mini__porte img{position:absolute;left:50%;bottom:0;height:calc(100% / (1 - var(--coupe)));width:auto;max-width:none;transform:translateX(-50%)}
 .tuile--cabine{display:block;text-decoration:none;color:var(--ink)}
 .tuile--cabine__texte{display:block}
 .tuile--cabine:focus-visible{outline:2px solid var(--pearl,#b08d57);outline-offset:3px}
 @media (max-width:600px){
   .tuiles--portes{grid-template-columns:1fr;gap:var(--s8)}
-  .tuiles--portes .tuile__vue,.tuiles--portes .cabine-mini{aspect-ratio:1/1}
 }
 /* page Sempre : la porte de la cabine a sa propre rangée, sous les pièces */
 .tuiles--serie .serie__cabine{grid-column:1/-1;border-top:1px solid var(--rule,#e4e1db);padding-top:var(--s6)}
 .serie__cabine .tuile--cabine{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s2);align-items:center}
-.serie__cabine .cabine-mini{aspect-ratio:3/4}
 .serie__cabine .tuile--cabine__texte{grid-column:2/4;padding-left:var(--s6)}
 .serie__cabine .tuile__nom{font-size:clamp(1.3rem,3vw,1.7rem);margin-top:0}
 .serie__cabine .tuile__etat{font-size:1rem;max-width:30rem;margin-top:var(--s2)}
 @media (max-width:820px){.serie__cabine .tuile--cabine{grid-template-columns:repeat(2,minmax(0,1fr))}
   .serie__cabine .tuile--cabine__texte{grid-column:2/3;padding-left:var(--s4)}}
 @media (max-width:600px){.serie__cabine .tuile--cabine{display:block}
-  .serie__cabine .cabine-mini{aspect-ratio:1/1}
   .serie__cabine .tuile--cabine__texte{padding-left:0}
   .serie__cabine .tuile__nom{font-size:1.15rem;margin-top:var(--s3)}}
 /* Habillez-moi : la couleur se choisit sous la tenue portée (Pedro, 2026-11-13) */
@@ -964,3 +956,8 @@ hr{border:0;border-top:1px solid var(--rule);margin:0}
 .cabine__tailles select{width:100%;min-width:0;box-sizing:border-box}
 .cabine__mesures .tablewrap{overflow-x:auto;max-width:100%}
 .cabine__mesures table{min-width:0}
+/* Porte d'Habillez-moi : le téléphone en main, image entière (pas la coupe sous le menton des tuiles) */
+.tuile__vue--service{aspect-ratio:4/5;background:#efe9df}
+.tuile__vue--service img{position:static;width:100%;height:100%;object-fit:cover;transform:none;max-width:100%}
+.serie__cabine .tuile__vue--service{aspect-ratio:4/5}
+@media (max-width:600px){.tuiles--portes .tuile__vue--service{aspect-ratio:4/5}}
