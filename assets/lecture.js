@@ -492,3 +492,23 @@
   document.addEventListener('click', function (e) { if (e.target.closest('[data-cabine-haut],[data-cabine-bas]')) setTimeout(maj, 0); });
   maj();
 })();
+
+/* Page Sempre : une couleur, un lieu — la pastille change le film, le décor, le nom et le lien de la robe. */
+(function () {
+  var art = document.querySelector('.heros-robe--lieu'); if (!art) return;
+  var v = art.querySelector('video'), nom = art.querySelector('.lieu__nom'), liens = art.querySelectorAll('.lieu__lien');
+  var calme = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  [].forEach.call(art.querySelectorAll('.lieu__pastille'), function (b) {
+    b.addEventListener('click', function () {
+      [].forEach.call(art.querySelectorAll('.lieu__pastille'), function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+      nom.textContent = b.dataset.nom;
+      [].forEach.call(liens, function (a) { a.href = b.dataset.lien; });
+      v.classList.add('fondu');
+      setTimeout(function () {
+        v.poster = b.dataset.poster; v.src = b.dataset.film;
+        if (!calme) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+        v.classList.remove('fondu');
+      }, 220);
+    });
+  });
+})();
