@@ -826,3 +826,7 @@ hr{border:0;border-top:1px solid var(--rule);margin:0}
 /* Habillez-moi : la cabine reste dans les marges du site */
 .silhouette--page{max-width:1140px}
 .cabine__achats .btn{width:100%;box-sizing:border-box}
+/* Cabine : l'aide aux tailles et la règle de la tenue, juste avant le bouton */
+.cabine__aide{font-size:.82rem;color:var(--mute);margin:0;line-height:1.5}
+.cabine__aide a{color:inherit}
+.cabine__regle{font-size:.9rem;margin:var(--s2) 0 0;padding:var(--s3) 0 0;border-top:1px solid var(--rule,#e4e1db);line-height:1.5}

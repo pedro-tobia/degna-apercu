@@ -29,7 +29,7 @@
 <link rel="icon" href="../../assets/logo.svg?v=bad0aa28">
 <link rel="preload" href="../../assets/polices/source-sans-3-400-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="../../assets/polices.css?v=2d999d05">
-<link rel="stylesheet" href="../../assets/site.css?v=b099815b">
+<link rel="stylesheet" href="../../assets/site.css?v=1c22b013">
 <script>document.documentElement.classList.add('js')</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "DEGNA", "item": "https://degna.ca/en/"}, {"@type": "ListItem", "position": 2, "name": "Dress Me", "item": "https://degna.ca/en/dress-me/"}]}</script>
 </head>
@@ -68,13 +68,15 @@
         <p><span class="cabine__label">Your outfit</span><span id="cabine-total" aria-live="polite">Short-Sleeved Knit Polo $325 + Wide-Leg Knit Trousers $395 = $720</span></p>
         <div class="cabine__set" id="cabine-set" data-url="https://degna.cartelcustomer.workers.dev/panier" data-langue="en" data-choisir="Choose both sizes" data-attente="Opening secure payment…" data-err="Payment could not open. You can order each piece on its own page, just below.">
           <div class="cabine__tailles"><label><span>Top size</span><select id="cabine-taille-haut"><option value="">Size</option><option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option></select></label><label><span>Bottom size</span><select id="cabine-taille-bas"><option value="">Size</option><option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option></select></label></div>
+          <p class="cabine__aide">Between two sizes, take the larger. Not sure? Write to <a href="mailto:hello@degna.ca">hello@degna.ca</a> with your usual size: we confirm it before your order ships.</p>
+          <p class="cabine__regle">One payment for the outfit. Each piece can be exchanged or returned on its own, free, within 30 days. Both pieces ship together.</p>
           <button class="btn btn--block" type="button" id="cabine-commander" data-txt="Order the outfit">Order the outfit</button>
           <p class="cabine__etat" role="status" aria-live="polite"></p>
         </div>
         <p class="cabine__ou">Or one piece at a time</p>
         <p class="cabine__achats"><a class="btn btn--block btn--ghost" id="cabine-achat-haut" href="#liste"></a><a class="btn btn--block btn--ghost" id="cabine-achat-bas" href="#liste"></a></p>
         <a class="sr" href="#liste" id="cabine-reserver" data-cmd="Order" data-bientot="Coming soon — be told first">Reserve this outfit</a>
-        <p class="cabine__note">One payment for the whole outfit. Made for you · ships within 2 weeks from Los Angeles.</p>
+        <p class="cabine__note">Made for you · ships within 2 weeks from Los Angeles.</p>
       </div>
     </div>
   </div>
