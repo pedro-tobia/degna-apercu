@@ -977,3 +977,6 @@ hr{border:0;border-top:1px solid var(--rule);margin:0}
   .signature__vues > *:nth-child(2) img{animation-delay:-8s;transform-origin:40% 60%}
 }
 @keyframes lent{from{transform:scale(1)}to{transform:scale(1.07)}}
+/* Accueil : la perle en gros plan, en mouvement lent, au lieu de la robe dans le couloir */
+.heros-robe__film--macro video{object-position:50% 50%}
+@media (prefers-reduced-motion:reduce){.heros-robe__film--macro video{display:none}.heros-robe__film--macro{background:url(media/macro-perle-poster.jpg) center/cover}}
