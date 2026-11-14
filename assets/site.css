@@ -1012,3 +1012,18 @@ hr{border:0;border-top:1px solid var(--rule);margin:0}
   .col-carte__dessins li{height:300px}
   .col-carte__dessins{padding:var(--s10) var(--s6)}
 }
+
+/* 2026-11-13 — Habillez-moi : mesures du corps en tiroir fermé sous les pastilles ; « Quelle est ma taille ? » mis en avant */
+.silhouette__gauche .cabine__mesures{margin:var(--s4,24px) 0 0;border-top:1px solid var(--rule,#e4e1db);border-bottom:1px solid var(--rule,#e4e1db)}
+.cabine__mesures summary{list-style:none;display:flex;justify-content:space-between;align-items:center;min-height:48px;color:var(--ink);font-size:.78rem;letter-spacing:.14em;text-transform:uppercase}
+.cabine__mesures summary::-webkit-details-marker{display:none}
+.cabine__mesures summary::after{content:"";width:11px;height:11px;flex:none;background:linear-gradient(currentColor,currentColor) center/11px 1px no-repeat,linear-gradient(currentColor,currentColor) center/1px 11px no-repeat;transition:transform .3s ease}
+.cabine__mesures[open] summary::after{transform:rotate(45deg)}
+.cabine__mesures summary:focus-visible{outline:1px solid var(--ink);outline-offset:2px}
+.cabine__mesures-choix{margin:0 0 var(--s2);font-size:.82rem;color:var(--mute)}
+.cabine__mesures[open]{padding-bottom:var(--s3,16px)}
+.taille-ouvrir{margin:var(--s3,16px) 0}
+.lien-taille{display:flex;align-items:center;justify-content:center;gap:12px;width:100%;min-height:52px;padding:0 20px;border:1px solid var(--ink);background:transparent;color:var(--ink);font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;transition:background .25s ease,color .25s ease}
+.lien-taille::before{content:"";width:9px;height:9px;border-radius:50%;flex:none;background:radial-gradient(circle at 35% 30%,#fff 0,#f3eee4 45%,#cfc6b4 100%);box-shadow:0 0 0 1px #b9a77a}
+.lien-taille:hover{background:var(--ink);color:#fff}
+.lien-taille:focus-visible{outline:1px solid var(--ink);outline-offset:3px}
