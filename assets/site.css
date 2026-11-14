@@ -1039,7 +1039,7 @@ hr{border:0;border-top:1px solid var(--rule);margin:0}
 .mot--entete .mot__def{flex-basis:auto}
 .collection__pourquoi{max-width:40em;font-size:1.05rem;line-height:1.6;margin:0 0 var(--s3,16px)}
 /* 2026-11-13 — sur téléphone, le film de la perle prend la hauteur de l'écran (Pedro) */
-@media (max-width:820px){.heros-robe__film--macro{aspect-ratio:4/5}}
+@media (max-width:820px){.heros-robe__film--macro{aspect-ratio:1/1}}
 /* 2026-11-13 — Sempre : le film de la robe en entier (9:16), tête comprise (Pedro) */
 .heros-robe--lieu .heros-robe__film{aspect-ratio:9/16;max-height:86vh;margin-inline:auto;width:auto;max-width:100%}
 .heros-robe--lieu .heros-robe__film video{object-position:50% 40%}
@@ -1047,3 +1047,4 @@ hr{border:0;border-top:1px solid var(--rule);margin:0}
 .hero--seul{grid-template-columns:1fr}
 .hero--seul .hero__film{margin-top:0}
 @media (max-width:860px){.hero--seul .hero__media video{width:min(100%,calc((100svh - 140px) * 720 / 1358));max-width:none}}
+@media (max-width:820px){.heros-robe__film--macro video{object-position:80% 50%}}
