@@ -1,3 +1,14 @@
+/* Langue de la cliente : après le paiement, Stripe la renvoie sur la page anglaise ; on la ramène dans sa langue
+   (la langue est retenue sur l'appareil à chaque page visitée). */
+(function () {
+  var L = (document.documentElement.lang || 'en').slice(0, 2), retour = /[?&]order=complete/.test(location.search), m = null;
+  try { m = localStorage.getItem('degna-langue'); if (!retour) localStorage.setItem('degna-langue', L); } catch (e) {}
+  if (retour && m && m !== L) {
+    var alt = document.querySelector('link[rel="alternate"][hreflang="' + m + '"]');
+    if (alt) location.replace(alt.href + location.search);
+  }
+})();
+
 /* Toute vidéo du site se lit seule, en boucle, sans que personne ait à la lancer.
    On ne déclenche la lecture que lorsque la vidéo est à l'écran : c'est la seule
    façon d'avoir quatre boucles sur une page sans vider la batterie d'un téléphone,
