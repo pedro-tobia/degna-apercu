@@ -30,7 +30,7 @@
 <link rel="preload" href="../../assets/polices/source-sans-3-400-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" as="image" href="../../assets/media/front.jpg?v=0d828623" fetchpriority="high">
 <link rel="stylesheet" href="../../assets/polices.css?v=2d999d05">
-<link rel="stylesheet" href="../../assets/site.css?v=4c3152af">
+<link rel="stylesheet" href="../../assets/site.css?v=3b3e8382">
 <script>document.documentElement.classList.add('js')</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "DEGNA", "item": "https://degna.ca/en/"}, {"@type": "ListItem", "position": 2, "name": "Contrast-Collar Knit Mini Dress", "item": "https://degna.ca/en/contrast-collar-knit-mini-dress/"}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Product", "name": "Contrast-Collar Knit Mini Dress", "description": "A fitted black knit mini dress with a white pointed collar, a pearl-button placket and a knife-pleated skirt. The rib is 87% rayon and 13% polyester, with no elastane: the give comes from the rib itself. Close at the bust and hip, the skirt opens slightly below the white waistband. Short length: it falls at mid-thigh.", "brand": {"@type": "Brand", "name": "DEGNA"}, "color": "Black / White", "material": "87% rayon, 13% polyester", "size": ["XS", "S", "M", "L", "XL"], "image": ["https://degna.ca/assets/media/front.jpg?v=0d828623", "https://degna.ca/assets/media/three-quarter.jpg?v=70482830", "https://degna.ca/assets/media/back.jpg?v=174fd360"], "offers": {"@type": "Offer", "url": "https://degna.ca/en/contrast-collar-knit-mini-dress/", "price": "495.00", "priceCurrency": "USD", "availability": "https://schema.org/MadeToOrder", "itemCondition": "https://schema.org/NewCondition", "shippingDetails": {"@type": "OfferShippingDetails", "shippingRate": {"@type": "MonetaryAmount", "value": "0", "currency": "USD"}, "shippingDestination": [{"@type": "DefinedRegion", "addressCountry": "US"}, {"@type": "DefinedRegion", "addressCountry": "CA"}]}, "hasMerchantReturnPolicy": {"@type": "MerchantReturnPolicy", "applicableCountry": ["US", "CA"], "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow", "merchantReturnDays": 30, "returnFees": "https://schema.org/FreeReturn", "refundType": "https://schema.org/FullRefund", "returnMethod": "https://schema.org/ReturnByMail"}}}</script>
@@ -72,6 +72,7 @@
           <div class="sizes"><input type="radio" name="size" id="h-xs" value="XS"><label for="h-xs">XS</label><input type="radio" name="size" id="h-s" value="S"><label for="h-s">S</label><input type="radio" name="size" id="h-m" value="M"><label for="h-m">M</label><input type="radio" name="size" id="h-l" value="L"><label for="h-l">L</label><input type="radio" name="size" id="h-xl" value="XL"><label for="h-xl">XL</label></div>
         </fieldset>
         <p class="taille-aide">Model is 5′2″ (157 cm) and wears size S.</p>
+        <p class="taille-ouvrir"><button type="button" class="lien-taille" data-ouvrir-taille>What is my size?</button></p>
         <details class="tiroir"><summary>Size guide</summary><div class="tiroir__corps"><ul><li>Short length: falls at mid-thigh (30.5 in / 78 cm in size M).</li><li>Fitted at the bust and hip.</li><li>Decorative buttons, no opening: if you are between sizes, take the larger size.</li></ul><div class="tablewrap"><table><thead><tr><th scope="col">Size</th><th scope="col">Bust</th><th scope="col">Waist &amp; hip</th><th scope="col">Hem</th><th scope="col">Length</th><th scope="col">Sleeve</th></tr></thead><tbody><tr><th scope="row">XS</th><td>29 in<small>74 cm</small></td><td>23.5 in<small>60 cm</small></td><td>49.5 in<small>126 cm</small></td><td>29.5 in<small>75 cm</small></td><td>21 in<small>53 cm</small></td></tr><tr><th scope="row">S</th><td>31 in<small>79 cm</small></td><td>25.5 in<small>65 cm</small></td><td>52 in<small>132 cm</small></td><td>30 in<small>76.5 cm</small></td><td>21 in<small>53.5 cm</small></td></tr><tr><th scope="row">M</th><td>33 in<small>84 cm</small></td><td>27.5 in<small>70 cm</small></td><td>54.5 in<small>138 cm</small></td><td>30.5 in<small>78 cm</small></td><td>21.5 in<small>54 cm</small></td></tr><tr><th scope="row">L</th><td>35 in<small>89 cm</small></td><td>29.5 in<small>75 cm</small></td><td>56.5 in<small>144 cm</small></td><td>31.5 in<small>79.5 cm</small></td><td>21.5 in<small>54.5 cm</small></td></tr><tr><th scope="row">XL</th><td>37 in<small>94 cm</small></td><td>31.5 in<small>80 cm</small></td><td>59 in<small>150 cm</small></td><td>32 in<small>81 cm</small></td><td>21.5 in<small>55 cm</small></td></tr></tbody></table></div><p><a href="../size-guide/">Technical drawing · Size guide</a></p></div></details>
         <button class="btn btn--block btn--attente" type="submit" data-choisir="Choose a size" data-acheter="Order"><span class="buy-label">Choose a size</span><span class="buy-size"></span> — <span>$495</span></button>
       </form>
@@ -94,6 +95,42 @@
 <section class="band band--tight renvoi-cabine">
   <div class="inner"><p><a class="lien" href="../dress-me/">Build an outfit with the rest of Sempre →</a></p></div>
 </section>
+<dialog class="taille-dialog" id="taille-dialog" data-mode="robe" data-unite="imp" data-corps='{"XS": {"poitrine": [80, 84], "taille": [60, 64], "hanches": [86, 90]}, "S": {"poitrine": [85, 89], "taille": [65, 69], "hanches": [91, 95]}, "M": {"poitrine": [90, 95], "taille": [70, 75], "hanches": [96, 100]}, "L": {"poitrine": [96, 101], "taille": [76, 81], "hanches": [101, 106]}, "XL": {"poitrine": [102, 107], "taille": [82, 87], "hanches": [107, 112]}}' data-textes='{&quot;resultat&quot;: &quot;We recommend&quot;, &quot;pour_robe&quot;: &quot;for the dress&quot;, &quot;haut&quot;: &quot;Top&quot;, &quot;bas&quot;: &quot;Bottom&quot;, &quot;estimee&quot;: &quot;estimated&quot;, &quot;mesuree&quot;: &quot;from your bra size&quot;, &quot;l_poitrine&quot;: &quot;Bust&quot;, &quot;l_taille&quot;: &quot;Waist&quot;, &quot;l_hanches&quot;: &quot;Hips&quot;, &quot;prevue&quot;: &quot;is cut for&quot;, &quot;entre&quot;: &quot;You are between two sizes: we suggest the larger, the rib knit stays close to the body.&quot;, &quot;hors&quot;: &quot;Your measurements are at the edge of our sizes. Write to us before ordering: &lt;a href=\&quot;mailto:hello@degna.ca\&quot;&gt;hello@degna.ca&lt;/a&gt;.&quot;, &quot;grande&quot;: &quot;Taller than our model (1.57 m / 5′2″): the dress will sit higher on the thigh.&quot;, &quot;base_pieces&quot;: &quot;For the polos, trousers, skirt and shorts, our advice uses the measurements of the dress, knitted in the same rib; each piece’s own measurements will follow.&quot;, &quot;choisir&quot;: &quot;Choose&quot;, &quot;appliquer&quot;: &quot;Use these sizes&quot;, &quot;manque&quot;: &quot;Please enter your height and weight.&quot;}' aria-labelledby="taille-titre">
+  <form method="dialog" class="taille-form" novalidate>
+    <header class="taille-tete"><h2 id="taille-titre">Find your size</h2><button class="taille-x" value="fermer" aria-label="Close">×</button></header>
+    <p class="taille-intro">Four questions. Your answers stay on this device.</p>
+    <section class="taille-etape" data-etape="1">
+      <h3>Your height and weight</h3>
+      <div class="taille-unites" role="group" aria-label="Units"><button type="button" data-unite="met">cm · kg</button><button type="button" data-unite="imp">ft · lb</button></div>
+      <div class="taille-champs" data-si="met"><label>Height<span class="taille-u"><input name="h_cm" type="number" inputmode="numeric" min="140" max="200" placeholder="165"> cm</span></label>
+        <label>Weight<span class="taille-u"><input name="p_kg" type="number" inputmode="numeric" min="35" max="160" placeholder="58"> kg</span></label></div>
+      <div class="taille-champs" data-si="imp"><label>Height<span class="taille-u"><input name="h_ft" type="number" inputmode="numeric" min="4" max="6" placeholder="5"> ft <input name="h_in" type="number" inputmode="numeric" min="0" max="11" placeholder="5"> in</span></label>
+        <label>Weight<span class="taille-u"><input name="p_lb" type="number" inputmode="numeric" min="80" max="350" placeholder="128"> lb</span></label></div>
+      <p class="taille-erreur" role="alert"></p>
+    </section>
+    <section class="taille-etape" data-etape="2" hidden>
+      <h3>Your shape</h3>
+      <fieldset><legend>Waist</legend><div class="choix-ligne"><label class="choix"><input type="radio" name="ventre" value="0"><span>Flat</span></label><label class="choix"><input type="radio" name="ventre" value="1" checked><span>Average</span></label><label class="choix"><input type="radio" name="ventre" value="2"><span>Rounder</span></label></div></fieldset>
+      <fieldset><legend>Hips</legend><div class="choix-ligne"><label class="choix"><input type="radio" name="hanches" value="0"><span>Narrow</span></label><label class="choix"><input type="radio" name="hanches" value="1" checked><span>Average</span></label><label class="choix"><input type="radio" name="hanches" value="2"><span>Wide</span></label></div></fieldset>
+    </section>
+    <section class="taille-etape" data-etape="3" hidden>
+      <h3>Your bra size (optional, more precise)</h3>
+      <div class="taille-champs"><label>Band<select name="bande"><option value="">—</option><optgroup label="EU / CA"><option value="eu65">65</option><option value="eu70">70</option><option value="eu75">75</option><option value="eu80">80</option><option value="eu85">85</option><option value="eu90">90</option><option value="eu95">95</option><option value="eu100">100</option></optgroup><optgroup label="US"><option value="us30">30</option><option value="us32">32</option><option value="us34">34</option><option value="us36">36</option><option value="us38">38</option><option value="us40">40</option><option value="us42">42</option><option value="us44">44</option></optgroup></select></label>
+        <label>Cup<select name="bonnet"><option value="">—</option><option>A</option><option>B</option><option>C</option><option>D</option><option>DD/E</option><option>F</option><option>G</option></select></label></div>
+      <p class="taille-note">I prefer not to say : next.</p>
+    </section>
+    <section class="taille-etape" data-etape="4" hidden>
+      <h3>How do you like to wear it?</h3>
+      <div class="choix-pile"><label class="choix"><input type="radio" name="coupe" value="0"><span>Close to the body</span></label><label class="choix"><input type="radio" name="coupe" value="1" checked><span>Just right</span></label><label class="choix"><input type="radio" name="coupe" value="2"><span>With a little ease</span></label></div>
+    </section>
+    <section class="taille-etape taille-res" data-etape="5" hidden aria-live="polite"></section>
+    <footer class="taille-pied">
+      <button type="button" class="btn btn--ghost" data-pas="-1">Back</button>
+      <button type="button" class="btn" data-pas="1" data-suivant="Next" data-voir="See my size">Next</button>
+      <button type="button" class="btn btn--ghost" data-refaire hidden>Start again</button>
+    </footer>
+  </form>
+</dialog>
 </main>
 <div class="achat-barre" id="achat-barre" aria-hidden="true">
   <span><b>Contrast-Collar Knit Mini Dress</b> <span>$495</span></span>
@@ -119,7 +156,7 @@
   </div>
 </footer>
 <script src="../../assets/checkout.js?v=6cb55169" defer></script>
-<script src="../../assets/lecture.js?v=5cd4d20a" defer></script>
+<script src="../../assets/lecture.js?v=9aca44a8" defer></script>
 <script src="../../assets/mesure.js?v=64b49ec9" defer></script>
 </body>
 </html>

@@ -835,3 +835,63 @@ hr{border:0;border-top:1px solid var(--rule);margin:0}
 /* Fiche jupe : la tenue d'inspiration dit ce qui est vendu */
 .fiche__medias .m__legende{position:absolute;left:12px;bottom:12px;margin:0;font-size:.78rem;line-height:1.3;max-width:calc(100% - 90px);background:rgba(255,255,255,.88);padding:4px 8px}
 .fiche__medias .m__legende a{color:var(--ink);text-decoration:underline;text-underline-offset:2px}
+
+/* ---- Conseiller de taille (2026-11-13) ---- */
+.lien-taille{font:inherit;font-size:.9rem;background:none;border:0;padding:0;color:var(--ink);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.taille-ouvrir{margin:var(--s2) 0}
+.taille-dialog{border:0;padding:0;width:min(520px,calc(100vw - 32px));max-height:calc(100svh - 32px);background:var(--paper);color:var(--ink);box-shadow:0 20px 60px rgba(0,0,0,.18)}
+.taille-dialog::backdrop{background:rgba(22,23,26,.38)}
+.taille-form{display:flex;flex-direction:column;max-height:calc(100svh - 32px)}
+.taille-tete{display:flex;align-items:center;justify-content:space-between;padding:var(--s5) var(--s5) 0}
+.taille-tete h2{font-size:1.25rem;font-weight:500;margin:0}
+.taille-x{font:inherit;font-size:1.6rem;line-height:1;background:none;border:0;cursor:pointer;color:var(--ink);padding:4px 8px}
+.taille-intro{margin:var(--s1) var(--s5) 0;font-size:.84rem;color:var(--mute)}
+.taille-etape{padding:var(--s4) var(--s5);overflow:auto}
+.taille-etape h3{font-size:1rem;font-weight:500;margin:0 0 var(--s3)}
+.taille-etape fieldset{border:0;padding:0;margin:0 0 var(--s4)}
+.taille-etape legend{font-size:.84rem;color:var(--mute);margin-bottom:var(--s2)}
+.taille-unites{display:inline-flex;border:1px solid var(--rule-strong);margin-bottom:var(--s4)}
+.taille-unites button{font:inherit;font-size:.84rem;padding:6px 14px;background:transparent;border:0;cursor:pointer;color:var(--mute)}
+.taille-unites button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.taille-champs{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--s3)}
+.taille-champs label{display:grid;gap:6px;font-size:.84rem;color:var(--mute)}
+.taille-u{display:flex;align-items:center;gap:6px;color:var(--ink)}
+.taille-champs input,.taille-champs select{font:inherit;font-size:1rem;width:100%;min-width:0;padding:.6rem .55rem;border:1px solid var(--rule-strong);background:#fff;color:var(--ink);border-radius:0}
+.taille-u input{width:5.2em}
+.choix-ligne{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.choix-pile{display:grid;gap:6px}
+.choix{position:relative}
+.choix input{position:absolute;opacity:0;inset:0}
+.choix span{display:block;text-align:center;padding:.7rem .4rem;border:1px solid var(--rule-strong);font-size:.9rem;cursor:pointer}
+.choix input:checked + span{border-color:var(--ink);background:var(--ink);color:var(--paper)}
+.choix input:focus-visible + span{outline:2px solid var(--pearl,#b08d57);outline-offset:2px}
+.taille-erreur{color:#9a2a2a;font-size:.86rem;min-height:1.2em;margin:var(--s3) 0 0}
+.taille-note{font-size:.82rem;color:var(--mute);line-height:1.5;margin:var(--s3) 0 0}
+.taille-note a{color:inherit}
+.taille-pied{display:flex;gap:var(--s2);justify-content:flex-end;padding:var(--s4) var(--s5) var(--s5);border-top:1px solid var(--rule,#e4e1db)}
+.taille-pied [hidden]{display:none}
+.taille-res{text-align:center}
+.taille-res ul{list-style:none;padding:0;margin:var(--s4) 0 0;font-size:.86rem;text-align:left;border-top:1px solid var(--rule,#e4e1db)}
+.taille-res li{padding:var(--s2) 0;border-bottom:1px solid var(--rule,#e4e1db)}
+.taille-res__pour{margin:0;font-size:.86rem;color:var(--mute)}
+.taille-res__t{display:block;font-size:3rem;line-height:1.1;font-weight:400;letter-spacing:.04em;margin:var(--s1) 0}
+.taille-res__deux{display:grid;grid-template-columns:1fr 1fr;gap:var(--s3);margin-top:var(--s2)}
+.taille-res__deux p{margin:0;font-size:.82rem;color:var(--mute)}
+.taille-res .btn{margin-top:var(--s4)}
+/* Habillez-moi : tableau des mesures du corps, lignes des tailles choisies */
+.cabine__mesures{margin:var(--s2) 0;font-size:.86rem}
+.cabine__mesures summary{cursor:pointer;color:var(--mute)}
+.cabine__mesures table{width:100%;border-collapse:collapse;margin-top:var(--s2);font-size:.82rem}
+.cabine__mesures th,.cabine__mesures td{padding:6px 4px;text-align:left;border-bottom:1px solid var(--rule,#e4e1db);font-weight:400}
+.cabine__mesures td small{display:block;color:var(--mute)}
+.cabine__mesures tr.est-haut,.cabine__mesures tr.est-bas{background:#f1ede5}
+.cabine__mesures tr.est-haut th,.cabine__mesures tr.est-bas th{font-weight:600}
+@media (prefers-reduced-motion:no-preference){.taille-dialog[open]{animation:taille-entree .22s cubic-bezier(.2,.7,.2,1)}}
+@keyframes taille-entree{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+/* Habillez-moi : la robe se porte seule, le bas se met en retrait */
+.cabine__robe-seule{display:none;font-size:.86rem;color:var(--mute);margin:var(--s2) 0 0}
+.cabine[data-robe] .cabine__robe-seule{display:block}
+.cabine[data-robe] .options--bas{opacity:.32;pointer-events:none}
+.cabine[data-robe] .cabine__tailles label:nth-child(2){display:none}
+.cabine[data-robe] .cabine__tailles{grid-template-columns:1fr}
+.cabine[data-robe] .cabine__regle,.cabine[data-robe] .cabine__ou,.cabine[data-robe] .cabine__achats{display:none}

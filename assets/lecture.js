@@ -201,6 +201,9 @@
     var c = p && p.dataset.code; return COULEURS.indexOf(c) > -1 ? c : 'noir';
   }
   function chemin(c, h, b) { return vue.dataset.base + c + '/' + h + '--' + b + '.jpg' + (vue.dataset.v ? '?v=' + vue.dataset.v : ''); }
+  /* La robe se porte seule : elle prend la place du haut et du bas (Pedro, 2026-11-13). */
+  function robe(h) { return h && h.dataset.cabineHaut === 'robe'; }
+  var cab = document.querySelector('.cabine');
   /* Les vignettes des pièces (mannequin invisible) prennent aussi la couleur choisie. */
   function vignettes(c) {
     [].forEach.call(document.querySelectorAll('.option img[data-v-noir]'), function (i) {
@@ -211,8 +214,12 @@
   function maj() {
     var h = choisi('haut'), b = choisi('bas');
     vignettes(couleur());
-    var src = chemin(couleur(), h.dataset.cabineHaut, b.dataset.cabineBas);
-    vue.alt = h.dataset.nom + ' + ' + b.dataset.nom;
+    var seule = robe(h);
+    if (cab) cab.toggleAttribute('data-robe', seule);
+    var lh = document.querySelector('.cabine__tailles label:first-child span');
+    if (lh) { lh.dataset.base = lh.dataset.base || lh.textContent; lh.textContent = seule ? lh.dataset.robe : lh.dataset.base; }
+    var src = seule ? h.getAttribute('data-p-' + couleur()) : chemin(couleur(), h.dataset.cabineHaut, b.dataset.cabineBas);
+    vue.alt = seule ? h.dataset.nom : h.dataset.nom + ' + ' + b.dataset.nom;
     if (vue.getAttribute('src') !== src) {
       if (sansFondu) vue.src = src;
       else { vue.classList.add('fondu'); setTimeout(function () { vue.onload = function () { vue.classList.remove('fondu'); }; vue.src = src; }, 180); }
@@ -221,13 +228,15 @@
     var r = reserver, c = couleur();
     [['haut', h], ['bas', b]].forEach(function (x) {
       var lien = document.getElementById('cabine-achat-' + x[0]); if (!lien) return;
+      lien.hidden = seule && x[0] === 'bas';
       var o = x[1], f = o.dataset.fiche;
       lien.textContent = f ? r.dataset.cmd + ' : ' + o.dataset.court + ' · ' + prix(o.dataset.prix) : o.dataset.court + ' · ' + r.dataset.bientot;
       lien.href = f ? f + (c === 'noir' ? '' : '#' + c) : '#liste';
     });
-    total.textContent = h.dataset.nom + ' ' + prix(h.dataset.prix) + ' + ' + b.dataset.nom + ' ' + prix(b.dataset.prix) +
-                        ' = ' + prix(Number(h.dataset.prix) + Number(b.dataset.prix));    var cmd = document.getElementById('cabine-commander');
-    if (cmd) cmd.textContent = cmd.dataset.txt + ' · ' + prix(Number(h.dataset.prix) + Number(b.dataset.prix));
+    var somme = Number(h.dataset.prix) + (seule ? 0 : Number(b.dataset.prix));
+    total.textContent = seule ? h.dataset.nom + ' ' + prix(h.dataset.prix) : h.dataset.nom + ' ' + prix(h.dataset.prix) + ' + ' + b.dataset.nom + ' ' + prix(b.dataset.prix) + ' = ' + prix(somme);
+    var cmd = document.getElementById('cabine-commander');
+    if (cmd) cmd.textContent = (seule ? cmd.dataset.robe : cmd.dataset.txt) + ' · ' + prix(somme);
   }
   /* Un seul paiement pour la tenue : le serveur DEGNA ouvre une session Stripe avec le haut et le bas.
      S'il ne répond pas, la cliente garde les deux liens « une pièce à la fois » juste en dessous. */
@@ -235,9 +244,11 @@
   if (set) document.getElementById('cabine-commander').addEventListener('click', function () {
     var etat = set.querySelector('.cabine__etat'), bouton = this;
     var th = document.getElementById('cabine-taille-haut'), tb = document.getElementById('cabine-taille-bas');
-    if (!th.value || !tb.value) { etat.textContent = set.dataset.choisir; (th.value ? tb : th).focus(); return; }
+    var seule = robe(choisi('haut'));
+    if (!th.value || (!seule && !tb.value)) { etat.textContent = set.dataset.choisir; (th.value ? tb : th).focus(); return; }
     var c = couleur();
-    var articles = [{ piece: choisi('haut').dataset.cle, couleur: c, taille: th.value }, { piece: choisi('bas').dataset.cle, couleur: c, taille: tb.value }];
+    var articles = [{ piece: choisi('haut').dataset.cle, couleur: c, taille: th.value }];
+    if (!seule) articles.push({ piece: choisi('bas').dataset.cle, couleur: c, taille: tb.value });
     bouton.disabled = true; etat.textContent = set.dataset.attente;
     fetch(set.dataset.url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ articles: articles, langue: set.dataset.langue }) })
       .then(function (r) { return r.json(); })
@@ -265,7 +276,7 @@
   /* Les photos des autres tenues de la couleur affichée se chargent en avance, pour un changement sans attente. */
   setTimeout(function () {
     var c = couleur();
-    [].forEach.call(document.querySelectorAll('[data-cabine-haut]'), function (h) {
+    [].forEach.call(document.querySelectorAll('[data-cabine-haut]:not([data-cabine-haut="robe"])'), function (h) {
       [].forEach.call(document.querySelectorAll('[data-cabine-bas]'), function (b) { (new Image()).src = chemin(c, h.dataset.cabineHaut, b.dataset.cabineBas); });
     });
   }, 2500);
@@ -329,4 +340,144 @@
     if (!url) { note.textContent = f.dataset.msgCouleur; return; }
     note.textContent = ''; f.querySelector('button').disabled = true; location.assign(url);
   });
+})();
+
+/* Conseiller de taille (comme Zara) : taille et poids, silhouette, soutien-gorge, coupe préférée.
+   Les barèmes du corps viennent de la robe mesurée (contenu.py : CORPS). Les réponses restent sur l'appareil. */
+(function () {
+  var d = document.getElementById('taille-dialog'); if (!d || !d.showModal) return;
+  var corps = JSON.parse(d.dataset.corps), T = JSON.parse(d.dataset.textes), mode = d.dataset.mode;
+  var form = d.querySelector('form'), etapes = [].slice.call(d.querySelectorAll('.taille-etape')), i = 0;
+  var res = d.querySelector('.taille-res'), err = d.querySelector('.taille-erreur');
+  var bRetour = d.querySelector('[data-pas="-1"]'), bSuite = d.querySelector('[data-pas="1"]'), bRefaire = d.querySelector('[data-refaire]');
+  var TAILLES = ['XS', 'S', 'M', 'L', 'XL'];
+  var CLE = 'degna-taille';
+  function lire() { try { return JSON.parse(localStorage.getItem(CLE) || 'null'); } catch (e) { return null; } }
+  function garder(o) { try { localStorage.setItem(CLE, JSON.stringify(o)); } catch (e) {} }
+  function champ(n) { return form.elements[n]; }
+  function unite(u) {
+    d.dataset.unite = u;
+    [].forEach.call(d.querySelectorAll('[data-si]'), function (c) { c.hidden = c.dataset.si !== u; });
+    [].forEach.call(d.querySelectorAll('.taille-unites button'), function (b) { b.setAttribute('aria-pressed', b.dataset.unite === u ? 'true' : 'false'); });
+  }
+  [].forEach.call(d.querySelectorAll('.taille-unites button'), function (b) { b.addEventListener('click', function () { unite(b.dataset.unite); }); });
+  function montrer(n) {
+    i = n;
+    etapes.forEach(function (e, k) { e.hidden = k !== i; });
+    bRetour.hidden = i === 0 || i === 4; bSuite.hidden = i === 4; bRefaire.hidden = i !== 4;
+    bSuite.textContent = i === 3 ? bSuite.dataset.voir : bSuite.dataset.suivant;
+  }
+  function mesures() {
+    var h, w;
+    if (d.dataset.unite === 'imp') {
+      h = (Number(champ('h_ft').value) * 12 + Number(champ('h_in').value || 0)) * 2.54; w = Number(champ('p_lb').value) * 0.4536;
+    } else { h = Number(champ('h_cm').value); w = Number(champ('p_kg').value); }
+    if (!(h > 135 && h < 210 && w > 30 && w < 180)) return null;
+    var imc = w / Math.pow(h / 100, 2);
+    var v = Number((form.querySelector('[name=ventre]:checked') || {}).value || 1);
+    var hp = Number((form.querySelector('[name=hanches]:checked') || {}).value || 1);
+    var poitrine = 42 + 2.1 * imc, source = T.estimee;
+    var bande = champ('bande').value, bonnet = champ('bonnet').value;
+    if (bande && bonnet) {
+      var sous = bande.slice(0, 2) === 'eu' ? Number(bande.slice(2)) : Number(bande.slice(2)) * 2.54 - 11;
+      poitrine = sous + ({ 'A': 13, 'B': 15, 'C': 17, 'D': 19, 'DD/E': 21, 'F': 23, 'G': 25 })[bonnet];
+      source = T.mesuree;
+    }
+    return { h: h, poitrine: poitrine, source: source,
+             taille: 13 + 2.6 * imc + [-3, 0, 4][v], hanches: 52 + 2 * imc + [-4, 0, 5][hp],
+             coupe: Number((form.querySelector('[name=coupe]:checked') || {}).value || 1) };
+  }
+  function indice(m, cle) {   /* position continue entre XS (0) et XL (4) */
+    var c = TAILLES.map(function (t) { return (corps[t][cle][0] + corps[t][cle][1]) / 2; });
+    if (m <= c[0]) return (m - c[0]) / 5.5;
+    if (m >= c[4]) return 4 + (m - c[4]) / 5.5;
+    for (var j = 0; j < 4; j++) if (m < c[j + 1]) return j + (m - c[j]) / (c[j + 1] - c[j]);
+    return 4;
+  }
+  function choix(f) { return { t: TAILLES[Math.max(0, Math.min(4, Math.round(f)))], entre: Math.abs(f - Math.floor(f) - 0.5) < 0.15, hors: f < -0.8 || f > 4.8 }; }
+  function ligne(lib, m, t, cle, src) {
+    var r = corps[t][cle];
+    return '<li>' + lib + ' ' + (src ? src + ' ' : '') + ': ' + Math.round(m) + ' cm — ' + t + ' ' + T.prevue + ' ' + r[0] + '–' + r[1] + ' cm</li>';
+  }
+  function resultat() {
+    var m = mesures(); if (!m) { montrer(0); err.textContent = T.manque; return; }
+    err.textContent = '';
+    var dec = [-0.35, 0, 0.5][m.coupe];
+    var ib = indice(m.poitrine, 'poitrine'), iw = indice(m.taille, 'taille'), ih = indice(m.hanches, 'hanches');
+    var html = '', notes = [], boutons = '';
+    var hc = document.querySelector('[data-cabine-haut][aria-pressed="true"]');
+    var robeCabine = mode === 'cabine' && hc && hc.dataset.cabineHaut === 'robe';
+    if (mode === 'robe' || robeCabine) {
+      var r = choix(Math.max(ib, iw) + dec);
+      html = '<p class="taille-res__pour">' + T.resultat + '</p><p class="taille-res__t">' + r.t + '</p><p class="taille-res__pour">' + T.pour_robe + '</p><ul>' +
+             ligne(T.l_poitrine, m.poitrine, r.t, 'poitrine', m.source) + ligne(T.l_taille, m.taille, r.t, 'taille', T.estimee) + '</ul>';
+      if (r.entre) notes.push(T.entre); if (r.hors) notes.push(T.hors); if (m.h > 166) notes.push(T.grande);
+      boutons = robeCabine ? '<button type="button" class="btn btn--block" data-appliquer data-haut="' + r.t + '">' + T.choisir + ' ' + r.t + '</button>'
+                           : '<button type="button" class="btn btn--block" data-appliquer data-robe="' + r.t + '">' + T.choisir + ' ' + r.t + '</button>';
+    } else {
+      var h = choix(Math.max(ib, iw - 0.5) + dec), b = choix(Math.max(iw, ih - 0.3) + dec);
+      var nh = (document.querySelector('[data-cabine-haut][aria-pressed="true"]') || {}).dataset, nb = (document.querySelector('[data-cabine-bas][aria-pressed="true"]') || {}).dataset;
+      html = '<p class="taille-res__pour">' + T.resultat + '</p><div class="taille-res__deux"><p><span>' + T.haut + (nh ? ' · ' + nh.court : '') + '</span><b class="taille-res__t">' + h.t + '</b></p>' +
+             '<p><span>' + T.bas + (nb ? ' · ' + nb.court : '') + '</span><b class="taille-res__t">' + b.t + '</b></p></div><ul>' +
+             ligne(T.l_poitrine, m.poitrine, h.t, 'poitrine', m.source) + ligne(T.l_taille, m.taille, b.t, 'taille', T.estimee) + ligne(T.l_hanches, m.hanches, b.t, 'hanches', T.estimee) + '</ul>';
+      if (h.entre || b.entre) notes.push(T.entre); if (h.hors || b.hors) notes.push(T.hors); notes.push(T.base_pieces);
+      boutons = '<button type="button" class="btn btn--block" data-appliquer data-haut="' + h.t + '" data-bas="' + b.t + '">' + T.appliquer + ' · ' + h.t + ' / ' + b.t + '</button>';
+    }
+    res.innerHTML = html + notes.map(function (n) { return '<p class="taille-note">' + n + '</p>'; }).join('') + boutons;
+    garder({ unite: d.dataset.unite, h_cm: champ('h_cm').value, p_kg: champ('p_kg').value, h_ft: champ('h_ft').value, h_in: champ('h_in').value, p_lb: champ('p_lb').value,
+             bande: champ('bande').value, bonnet: champ('bonnet').value,
+             ventre: (form.querySelector('[name=ventre]:checked') || {}).value, hanches: (form.querySelector('[name=hanches]:checked') || {}).value,
+             coupe: (form.querySelector('[name=coupe]:checked') || {}).value });
+    montrer(4);
+  }
+  res.addEventListener('click', function (e) {
+    var a = e.target.closest('[data-appliquer]'); if (!a) return;
+    if (a.dataset.robe) {
+      var r = document.querySelector('form[data-buy] input[name="size"][value="' + a.dataset.robe + '"]');
+      if (r) { r.checked = true; r.dispatchEvent(new Event('change', { bubbles: true })); }
+    } else {
+      [['haut', a.dataset.haut], ['bas', a.dataset.bas]].forEach(function (x) {
+        var s = document.getElementById('cabine-taille-' + x[0]); if (s && x[1]) { s.value = x[1]; s.dispatchEvent(new Event('change', { bubbles: true })); }
+      });
+    }
+    d.close();
+  });
+  bSuite.addEventListener('click', function () {
+    if (i === 0 && !mesures()) { err.textContent = T.manque; return; }
+    err.textContent = '';
+    if (i === 3) resultat(); else montrer(i + 1);
+  });
+  bRetour.addEventListener('click', function () { montrer(Math.max(0, i - 1)); });
+  bRefaire.addEventListener('click', function () { montrer(0); });
+  function ouvrir() {
+    var s = lire();
+    unite((s && s.unite) || d.dataset.unite);
+    if (s) {
+      ['h_cm', 'p_kg', 'h_ft', 'h_in', 'p_lb', 'bande', 'bonnet'].forEach(function (k) { if (s[k] != null) champ(k).value = s[k]; });
+      ['ventre', 'hanches', 'coupe'].forEach(function (k) { var r = form.querySelector('[name=' + k + '][value="' + s[k] + '"]'); if (r) r.checked = true; });
+    }
+    montrer(0); d.showModal();
+  }
+  [].forEach.call(document.querySelectorAll('[data-ouvrir-taille]'), function (b) { b.addEventListener('click', ouvrir); });
+  d.addEventListener('click', function (e) { if (e.target === d) d.close(); });   /* clic hors de la fenêtre */
+  unite(d.dataset.unite); montrer(0);
+})();
+
+/* Habillez-moi : le tableau des mesures suit le haut, le bas et les deux tailles choisies. */
+(function () {
+  var box = document.querySelector('.cabine__mesures'); if (!box) return;
+  var sh = document.getElementById('cabine-taille-haut'), sb = document.getElementById('cabine-taille-bas'), lib = box.querySelector('.cabine__mesures-choix');
+  function maj() {
+    var h = (document.querySelector('[data-cabine-haut][aria-pressed="true"]') || {}).dataset || {}, b = (document.querySelector('[data-cabine-bas][aria-pressed="true"]') || {}).dataset || {};
+    [].forEach.call(box.querySelectorAll('tr[data-taille]'), function (tr) {
+      tr.classList.toggle('est-haut', tr.dataset.taille === sh.value);
+      tr.classList.toggle('est-bas', tr.dataset.taille === sb.value);
+    });
+    var seule = h.cabineHaut === 'robe';
+    if (seule) [].forEach.call(box.querySelectorAll('tr.est-bas'), function (tr) { tr.classList.remove('est-bas'); });
+    lib.textContent = (h.court || '') + ' ' + (sh.value || '—') + (seule ? '' : ' · ' + (b.court || '') + ' ' + (sb.value || '—'));
+  }
+  sh.addEventListener('change', maj); sb.addEventListener('change', maj);
+  document.addEventListener('click', function (e) { if (e.target.closest('[data-cabine-haut],[data-cabine-bas]')) setTimeout(maj, 0); });
+  maj();
 })();
