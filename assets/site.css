@@ -971,10 +971,18 @@ hr{border:0;border-top:1px solid var(--rule);margin:0}
 .recit__liens{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s4);margin-top:var(--s5) !important}
 /* Accueil : la perle en gros plan, en mouvement lent, au lieu de la robe dans le couloir */
 .heros-robe__film--macro video{object-position:50% 50%}
-@media (prefers-reduced-motion:reduce){.heros-robe__film--macro video{display:none}.heros-robe__film--macro{background:url(media/macro-perle-poster.jpg) center/cover}}
+@media (prefers-reduced-motion:reduce){.heros-robe__film--macro video{display:none}.heros-robe__film--macro{background:url(media/macro-perle-noir-poster.jpg) center/cover}}
 
 /* La signature : un seul film en paysage, le poignet et la perle de la robe noire */
 .signature__vues{grid-template-columns:1fr}
 .signature__vues video{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:var(--paper-2)}
 @media (prefers-reduced-motion:reduce){.signature__vues video{display:none}.signature__vues{aspect-ratio:16/9;background:url(media/signature-poignet-poster.jpg) center/cover}}/* « Composez votre style » : le titre du bloc, en gras (Pedro, 2026-11-13) */
 .portes .petit-titre{font-weight:700;color:var(--ink);letter-spacing:.14em}
+/* Accueil : la perle noire en grand (Pedro, 2026-11-13) — plus d'écran sur ordinateur, bord à bord sur téléphone */
+@media (min-width:821px){.heros-robe:has(.heros-robe__film--macro){grid-template-columns:minmax(0,1.9fr) minmax(0,1fr)}}
+.heros-robe__film--macro{aspect-ratio:4/5}
+.heros-robe__film--macro video{object-position:54% 46%}
+/* Bouton d'achat posé sur les photos */
+.tuile__vue{position:relative}
+.tuile__achat{position:absolute;left:12px;bottom:12px;z-index:1;background:var(--ink);color:var(--paper);font-size:.78rem;letter-spacing:.04em;padding:8px 14px}
+.tuile:hover .tuile__achat{background:#000}
