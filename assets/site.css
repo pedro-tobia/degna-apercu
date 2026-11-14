@@ -832,3 +832,6 @@ hr{border:0;border-top:1px solid var(--rule);margin:0}
 .cabine__regle{font-size:.9rem;margin:var(--s2) 0 0;padding:var(--s3) 0 0;border-top:1px solid var(--rule,#e4e1db);line-height:1.5}
 /* Fiches pièces sur le modèle de la robe : le vêtement seul se montre entier, jamais rogné */
 .fiche-piece .fiche__medias .m--fantome img{object-fit:contain;object-position:50% 50%;background:#fff}
+/* Fiche jupe : la tenue d'inspiration dit ce qui est vendu */
+.fiche__medias .m__legende{position:absolute;left:12px;bottom:12px;margin:0;font-size:.78rem;line-height:1.3;max-width:calc(100% - 90px);background:rgba(255,255,255,.88);padding:4px 8px}
+.fiche__medias .m__legende a{color:var(--ink);text-decoration:underline;text-underline-offset:2px}
