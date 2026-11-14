@@ -955,3 +955,12 @@ hr{border:0;border-top:1px solid var(--rule);margin:0}
   .serie__cabine .cabine-mini{aspect-ratio:1/1}
   .serie__cabine .tuile--cabine__texte{padding-left:0}
   .serie__cabine .tuile__nom{font-size:1.15rem;margin-top:var(--s3)}}
+/* Habillez-moi : la couleur se choisit sous la tenue portée (Pedro, 2026-11-13) */
+.silhouette__gauche{min-width:0}
+.silhouette__gauche .cabine-couleurs{margin-top:var(--s4)}
+/* Habillez-moi sur téléphone : rien ne dépasse de l'écran */
+.cabine,.cabine__set{min-width:0}
+.cabine__tailles{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.cabine__tailles select{width:100%;min-width:0;box-sizing:border-box}
+.cabine__mesures .tablewrap{overflow-x:auto;max-width:100%}
+.cabine__mesures table{min-width:0}
