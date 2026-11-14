@@ -969,14 +969,12 @@ hr{border:0;border-top:1px solid var(--rule);margin:0}
 .recit h3{font-size:clamp(1.5rem,3.6vw,2.2rem);font-weight:400;line-height:1.2}
 .recit p{max-width:32rem;line-height:1.65}
 .recit__liens{display:flex;flex-wrap:wrap;align-items:center;gap:var(--s4);margin-top:var(--s5) !important}
-/* Gros plans en mode cinéma : une avancée très lente, à peine perceptible */
-.signature__vues{overflow:hidden}
-.signature__vues figure,.signature__vues a,.signature__vues > *{overflow:hidden}
-@media (prefers-reduced-motion:no-preference){
-  .signature__vues img{animation:lent 16s cubic-bezier(.45,0,.55,1) infinite alternate;transform-origin:50% 50%}
-  .signature__vues > *:nth-child(2) img{animation-delay:-8s;transform-origin:40% 60%}
-}
-@keyframes lent{from{transform:scale(1)}to{transform:scale(1.07)}}
 /* Accueil : la perle en gros plan, en mouvement lent, au lieu de la robe dans le couloir */
 .heros-robe__film--macro video{object-position:50% 50%}
 @media (prefers-reduced-motion:reduce){.heros-robe__film--macro video{display:none}.heros-robe__film--macro{background:url(media/macro-perle-poster.jpg) center/cover}}
+
+/* La signature : un seul film en paysage, le poignet et la perle de la robe noire */
+.signature__vues{grid-template-columns:1fr}
+.signature__vues video{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:var(--paper-2)}
+@media (prefers-reduced-motion:reduce){.signature__vues video{display:none}.signature__vues{aspect-ratio:16/9;background:url(media/signature-poignet-poster.jpg) center/cover}}/* « Composez votre style » : le titre du bloc, en gras (Pedro, 2026-11-13) */
+.portes .petit-titre{font-weight:700;color:var(--ink);letter-spacing:.14em}
