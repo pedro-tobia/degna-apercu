@@ -65,6 +65,8 @@
     p.forEach(function (o) { o.setAttribute('aria-pressed', o === b ? 'true' : 'false'); });
     var noir = b.dataset.code === 'noir';
     if (nom) nom.innerHTML = b.dataset.nom;
+    /* La description et les détails parlent de la couleur choisie. */
+    [].forEach.call(document.querySelectorAll('[data-teinte]'), function (e) { e.hidden = e.dataset.teinte !== b.dataset.code; });
     if (vue && b.dataset.face) vue.src = b.dataset.face;
     if (dos && b.dataset.dos) dos.src = b.dataset.dos;
     if (apercu) apercu.hidden = noir;
