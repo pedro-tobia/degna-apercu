@@ -806,3 +806,23 @@ hr{border:0;border-top:1px solid var(--rule);margin:0}
 
 /* Hero : ce que veut dire Sempre, sous le titre */
 .hero__sens{max-width:34ch;margin:var(--s3) 0 0;font-size:1rem;line-height:1.55;color:var(--ink)}
+
+/* ---- Audit design du 2026-11-13 ---- */
+/* Accueil : le nom de la ligne porte la page, le sous-titre se range dessous */
+.titre-ligne{font-size:clamp(2.6rem,6.2vw,3.8rem) !important;line-height:1.02 !important;letter-spacing:.01em !important}
+.titre-ligne span{font-size:clamp(1.05rem,1.8vw,1.28rem);line-height:1.35;letter-spacing:0;margin-top:.7rem}
+/* Fiches pièces : même disposition que la robe, la photo à gauche, l'achat à droite */
+@media (min-width:821px){
+  .hero--piece{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:start}
+  .hero--piece .hero__media{order:-1;position:sticky;top:96px}
+}
+/* En-têtes de collection alignés sur la grille, plus de colonne centrée flottante */
+.collection__entete{max-width:1140px}
+.collection__entete > *{max-width:40rem}
+/* La robe vedette : le texte au milieu de la photo, pas en bas */
+.heros-robe{align-items:center}
+/* « Aller plus loin » : deux cartes moins hautes */
+.tuiles--portes .tuile__vue{aspect-ratio:4/5}
+/* Habillez-moi : la cabine reste dans les marges du site */
+.silhouette--page{max-width:1140px}
+.cabine__achats .btn{width:100%;box-sizing:border-box}
