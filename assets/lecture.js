@@ -241,11 +241,14 @@
       var lien = document.getElementById('cabine-achat-' + x[0]); if (!lien) return;
       lien.hidden = seule && x[0] === 'bas';
       var o = x[1], f = o.dataset.fiche;
-      lien.textContent = f ? r.dataset.cmd + ' : ' + o.dataset.court + ' · ' + prix(o.dataset.prix) : o.dataset.court + ' · ' + r.dataset.bientot;
+      lien.textContent = f ? r.dataset.cmd + (lang === 'fr' ? ' : ' : ': ') + o.dataset.court + ' · ' + prix(o.dataset.prix) : o.dataset.court + ' · ' + r.dataset.bientot;
       lien.href = f ? f + (c === 'noir' ? '' : '#' + c) : '#liste';
     });
     var somme = Number(h.dataset.prix) + (seule ? 0 : Number(b.dataset.prix));
-    total.textContent = seule ? h.dataset.nom + ' ' + prix(h.dataset.prix) : h.dataset.nom + ' ' + prix(h.dataset.prix) + ' + ' + b.dataset.nom + ' ' + prix(b.dataset.prix) + ' = ' + prix(somme);
+    /* le total d'abord, le détail en petit dessous (revue froide du 2026-11-15) */
+    total.textContent = prix(somme);
+    var detail = document.getElementById('cabine-detail');
+    if (detail) detail.textContent = seule ? h.dataset.nom + ' ' + prix(h.dataset.prix) : h.dataset.nom + ' ' + prix(h.dataset.prix) + ' + ' + b.dataset.nom + ' ' + prix(b.dataset.prix);
     var cmd = document.getElementById('cabine-commander');
     if (cmd) cmd.textContent = (seule ? cmd.dataset.robe : cmd.dataset.txt) + ' · ' + prix(somme);
   }
@@ -425,6 +428,13 @@
       if (r.entre) notes.push(T.entre); if (r.hors) notes.push(T.hors); if (m.h > 166) notes.push(T.grande);
       boutons = robeCabine ? '<button type="button" class="btn btn--block" data-appliquer data-haut="' + r.t + '">' + T.choisir + ' ' + r.t + '</button>'
                            : '<button type="button" class="btn btn--block" data-appliquer data-robe="' + r.t + '">' + T.choisir + ' ' + r.t + '</button>';
+    } else if (mode === 'haut' || mode === 'bas') {   /* fiche d'une pièce : une seule taille, haut ou bas */
+      var rp = mode === 'haut' ? choix(Math.max(ib, iw - 0.5) + dec) : choix(Math.max(iw, ih - 0.3) + dec);
+      html = '<p class="taille-res__pour">' + T.resultat + '</p><p class="taille-res__t">' + rp.t + '</p><ul>' +
+             (mode === 'haut' ? ligne(T.l_poitrine, m.poitrine, rp.t, 'poitrine', m.source) + ligne(T.l_taille, m.taille, rp.t, 'taille', T.estimee)
+                              : ligne(T.l_taille, m.taille, rp.t, 'taille', T.estimee) + ligne(T.l_hanches, m.hanches, rp.t, 'hanches', T.estimee)) + '</ul>';
+      if (rp.entre) notes.push(T.entre); if (rp.hors) notes.push(T.hors); notes.push(T.base_pieces);
+      boutons = '<button type="button" class="btn btn--block" data-appliquer data-piece="' + rp.t + '">' + T.choisir + ' ' + rp.t + '</button>';
     } else {
       var h = choix(Math.max(ib, iw - 0.5) + dec), b = choix(Math.max(iw, ih - 0.3) + dec);
       var nh = (document.querySelector('[data-cabine-haut][aria-pressed="true"]') || {}).dataset, nb = (document.querySelector('[data-cabine-bas][aria-pressed="true"]') || {}).dataset;
@@ -443,7 +453,10 @@
   }
   res.addEventListener('click', function (e) {
     var a = e.target.closest('[data-appliquer]'); if (!a) return;
-    if (a.dataset.robe) {
+    if (a.dataset.piece) {
+      var rp = document.querySelector('form[data-precommande] input[name="size"][value="' + a.dataset.piece + '"]');
+      if (rp) { rp.checked = true; rp.dispatchEvent(new Event('change', { bubbles: true })); }
+    } else if (a.dataset.robe) {
       var r = document.querySelector('form[data-buy] input[name="size"][value="' + a.dataset.robe + '"]');
       if (r) { r.checked = true; r.dispatchEvent(new Event('change', { bubbles: true })); }
     } else {
