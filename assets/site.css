@@ -1131,3 +1131,6 @@ html.panier-ouvert{overflow:hidden}
 /* « Le reste de Sempre » sur les fiches et la page Sempre : même grille que Collections */
 .boutique__grille--reste{margin-top:var(--s5)}
 @media (min-width:1200px){.boutique__grille--reste{grid-template-columns:repeat(5,minmax(0,1fr))}}
+/* « Le reste de Sempre » (fiches, page Sempre) : pas de vignette blanche sur le fond de la page ; le blanc de la photo s'y fond (Pedro, 2026-11-15) */
+.boutique__grille--reste .b-tuile__vue{background:transparent}
+.boutique__grille--reste .b-tuile__vue img{mix-blend-mode:multiply}
