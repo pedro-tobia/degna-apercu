@@ -1090,5 +1090,44 @@ hr{border:0;border-top:1px solid var(--rule);margin:0}
 /* Fiches : le vêtement seul se pose sur le gris clair de l'exemple ; le blanc de la photo s'y fond (multiply) */
 .fiche__medias .m--fantome{background:#eceae6}
 .fiche__medias .m--fantome img{mix-blend-mode:multiply;object-fit:contain;object-position:50% 50%}
-/* Fiche robe : les 3 gros plans et le fantôme, 2 par rangée sur ordinateur (aucun trou dans la mosaïque) */
-@media (min-width:900px){.fiche-robe:not(.fiche-piece) .fiche__medias .m--petit{grid-column:span 3}}
+
+/* 2026-11-15 — panier (Pedro) : sac toujours visible dans l'en-tête, tiroir à droite */
+.sac{position:relative;display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;margin-left:var(--s2);
+  background:none;border:0;padding:0;color:var(--ink);cursor:pointer;flex-shrink:0}
+.sac__n{position:absolute;top:2px;right:0;min-width:16px;height:16px;padding:0 4px;border-radius:8px;background:var(--ink);color:#fff;
+  font-size:.66rem;line-height:16px;text-align:center;font-variant-numeric:tabular-nums}
+@media (max-width:560px){.sac{order:2;margin-left:var(--s2)}}
+.panier[hidden]{display:none}
+.panier{position:fixed;inset:0;z-index:60}
+.panier__voile{position:absolute;inset:0;background:rgba(20,18,16,.32)}
+.panier__tiroir{position:absolute;top:0;right:0;bottom:0;width:min(420px,100%);background:#fff;display:flex;flex-direction:column;
+  box-shadow:-8px 0 30px rgba(0,0,0,.08);animation:panier-entre .22s ease}
+@keyframes panier-entre{from{transform:translateX(24px);opacity:.6}to{transform:none;opacity:1}}
+@media (prefers-reduced-motion:reduce){.panier__tiroir{animation:none}}
+.panier__tete{display:flex;align-items:center;justify-content:space-between;padding:var(--s5) var(--s6);border-bottom:1px solid var(--rule)}
+.panier__tete h2{font-size:.82rem;letter-spacing:.1em;text-transform:uppercase;font-weight:500;margin:0}
+.panier__x{background:none;border:0;font-size:1.6rem;line-height:1;cursor:pointer;color:var(--ink);padding:0 4px}
+.panier__vide{padding:var(--s8) var(--s6);margin:0;color:var(--mute)}
+.panier__vide a{color:var(--ink)}
+.panier__liste{list-style:none;margin:0;padding:0 var(--s6);overflow-y:auto;flex:1}
+.panier__article{display:grid;grid-template-columns:76px 1fr auto;gap:var(--s4);align-items:start;padding:var(--s5) 0;border-bottom:1px solid var(--rule)}
+.panier__article img{width:76px;height:101px;object-fit:contain;background:#fff;display:block}
+.panier__article a{color:var(--ink);text-decoration:none;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;line-height:1.35;display:block}
+.panier__article small{display:block;color:var(--mute);font-size:.82rem;margin-top:4px}
+.panier__article b{font-weight:400;font-variant-numeric:tabular-nums;font-size:.9rem}
+.panier__retirer{grid-column:2;justify-self:start;background:none;border:0;padding:0;margin-top:var(--s2);color:var(--mute);font-size:.8rem;
+  text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.panier__pied{padding:var(--s5) var(--s6) calc(var(--s6) + env(safe-area-inset-bottom,0px));border-top:1px solid var(--rule)}
+.panier__total{display:flex;justify-content:space-between;margin:0 0 var(--s2);font-size:1rem}
+.panier__total b{font-weight:500;font-variant-numeric:tabular-nums}
+.panier__note{font-size:.8rem;color:var(--mute);margin:0 0 var(--s4);line-height:1.5}
+.panier__etat{font-size:.84rem;margin:var(--s3) 0 0;min-height:1.2em}
+.panier--vide .panier__liste,.panier--vide .panier__pied{display:none}
+.panier:not(.panier--vide) .panier__vide{display:none}
+.panier-note{font-size:.86rem;margin:var(--s2) 0 0;min-height:1.2em}
+html.panier-ouvert{overflow:hidden}
+.contact-ligne{margin:0 auto var(--s12);font-size:.88rem;color:var(--mute);text-align:center}
+.contact-ligne a{color:var(--ink)}
+/* « Le reste de Sempre » sur les fiches et la page Sempre : même grille que Collections */
+.boutique__grille--reste{margin-top:var(--s5)}
+@media (min-width:1200px){.boutique__grille--reste{grid-template-columns:repeat(5,minmax(0,1fr))}}
