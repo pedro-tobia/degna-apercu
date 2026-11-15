@@ -836,7 +836,7 @@ hr{border:0;border-top:1px solid var(--rule);margin:0}
 .cabine__aide a{color:inherit}
 .cabine__regle{font-size:.9rem;margin:var(--s2) 0 0;padding:var(--s3) 0 0;border-top:1px solid var(--rule,#e4e1db);line-height:1.5}
 /* Fiches pièces sur le modèle de la robe : le vêtement seul se montre entier, jamais rogné */
-.fiche-piece .fiche__medias .m--fantome img{object-fit:contain;object-position:50% 50%;background:#fff}
+.fiche-piece .fiche__medias .m--fantome img{object-fit:contain;object-position:50% 50%;background:transparent}
 /* Fiche jupe : la tenue d'inspiration dit ce qui est vendu */
 .fiche__medias .m__legende{position:absolute;left:12px;bottom:12px;margin:0;font-size:.78rem;line-height:1.3;max-width:calc(100% - 90px);background:rgba(255,255,255,.88);padding:4px 8px}
 .fiche__medias .m__legende a{color:var(--ink);text-decoration:underline;text-underline-offset:2px}
@@ -1069,3 +1069,29 @@ hr{border:0;border-top:1px solid var(--rule);margin:0}
 .introuvable section{margin-top:var(--s8);text-align:center}
 .introuvable h2{font-size:1.2rem;font-weight:400}
 .introuvable p{margin-top:var(--s2)}
+
+/* 2026-11-15 — Collections : toutes les pièces en fantôme, rangées par couleur, sur fond blanc (Pedro) */
+.boutique{background:#fff;padding:var(--s4) 0 var(--s16)}
+.boutique__couleur + .boutique__couleur{margin-top:var(--s10)}
+.boutique__grille{list-style:none;margin:0;padding:0 var(--s4);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s8) var(--s4);max-width:1600px;margin-inline:auto}
+@media (min-width:1200px){.boutique__grille{grid-template-columns:repeat(6,minmax(0,1fr))}}   /* une couleur par rangée ; 6 pièces = 6, 3 ou 2 colonnes, jamais de trou */
+.b-tuile{display:block;text-decoration:none;color:var(--ink)}
+.b-tuile__vue{display:block;aspect-ratio:3/4;background:#fff;overflow:hidden}
+.b-tuile__vue img{display:block;width:100%;height:100%;object-fit:contain;transition:transform .4s ease}
+.b-tuile:hover .b-tuile__vue img,.b-tuile:focus-visible .b-tuile__vue img{transform:scale(1.03)}
+.b-tuile__nom{display:block;margin-top:var(--s3);font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;line-height:1.35}
+.b-tuile__prix{display:block;margin-top:2px;font-size:.86rem;font-variant-numeric:tabular-nums}
+.b-tuile__pastilles{display:flex;gap:6px;margin-top:var(--s2)}
+.b-tuile__pastille{width:10px;height:10px;background:var(--c);box-shadow:inset 0 0 0 1px rgba(0,0,0,.18)}
+.b-tuile__pastille--ici{outline:1px solid var(--ink);outline-offset:2px}
+.b-tuile:hover .b-tuile__nom,.b-tuile:focus-visible .b-tuile__nom{text-decoration:underline;text-underline-offset:3px}
+@media (max-width:760px){
+  .boutique{padding-top:0}
+  .boutique__grille{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s6) var(--s2);padding:0}
+  .b-tuile__nom,.b-tuile__prix,.b-tuile__pastilles{margin-left:var(--s2)}
+}
+/* Fiches : le vêtement seul se pose sur le gris clair de l'exemple ; le blanc de la photo s'y fond (multiply) */
+.fiche__medias .m--fantome{background:#eceae6}
+.fiche__medias .m--fantome img{mix-blend-mode:multiply;object-fit:contain;object-position:50% 50%}
+/* Fiche robe : les 3 gros plans et le fantôme, 2 par rangée sur ordinateur (aucun trou dans la mosaïque) */
+@media (min-width:900px){.fiche-robe:not(.fiche-piece) .fiche__medias .m--petit{grid-column:span 3}}
