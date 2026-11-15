@@ -1,9 +1,9 @@
 /* DEGNA — panier (Pedro, 2026-11-15 : « ajouter au panier », le panier accessible en tout temps).
    Le panier vit dans le navigateur (localStorage, rien de personnel : pièce, couleur, taille). Le sac de l'en-tête
    l'ouvre sur toutes les pages ; « Passer au paiement » envoie la liste au serveur DEGNA (/panier), qui recalcule
-   prix et noms et ouvre UN paiement Stripe pour tout. Le serveur accepte aujourd'hui 4 pièces par commande. */
+   prix et noms et ouvre UN paiement Stripe pour tout. Aucun plafond maison (Pedro : toute la collection dans toutes les couleurs) ; 100 lignes = la limite de Stripe. */
 (function () {
-  var MAX = 4, CLE = 'degna-panier';
+  var MAX = 100, CLE = 'degna-panier';
   var tiroir = document.getElementById('panier'); if (!tiroir) return;
   var CAT = JSON.parse(tiroir.dataset.catalogue || '{}'), T = JSON.parse(tiroir.dataset.textes || '{}');
   var lang = tiroir.dataset.langue || 'en';
