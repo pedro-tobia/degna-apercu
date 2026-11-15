@@ -718,9 +718,12 @@ hr{border:0;border-top:1px solid var(--rule);margin:0}
 
 .quatre,.signature,.serie{margin-top:var(--s16)}
 .tuiles{list-style:none;margin:0;padding:0;display:grid;gap:var(--s2)}
-.tuiles--quatre{grid-template-columns:repeat(2,minmax(0,1fr)) minmax(0,1.6fr) repeat(2,minmax(0,1fr));align-items:center}
+.tuiles--quatre{grid-template-columns:repeat(4,minmax(0,1fr))}
+.quatre__scene{display:block;max-width:540px;margin:var(--s6) auto 0;text-decoration:none;color:var(--ink)}
 .quatre__film-cadre{margin:0;aspect-ratio:3/4;overflow:hidden;background:#f3ede4}
 .quatre__film-cadre video{display:block;width:100%;height:100%;object-fit:cover}
+.quatre__lien{display:block;margin-top:var(--s4);text-align:center;font-size:.94rem;letter-spacing:.04em}
+.quatre__scene:hover .quatre__lien,.quatre__scene:focus-visible .quatre__lien{text-decoration:underline;text-underline-offset:3px}
 .tuiles--serie{grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s6) var(--s2);margin-top:var(--s6)}
 .tuile{display:block;text-decoration:none;color:var(--ink)}
 .tuile__vue{--coupe:.2;display:block;position:relative;aspect-ratio:3/4;overflow:hidden;background:#fff}
@@ -768,7 +771,6 @@ hr{border:0;border-top:1px solid var(--rule);margin:0}
   .heros-robe{grid-template-columns:1fr;padding:0;margin-top:var(--s8)}
   .heros-robe__texte{padding:0 var(--gut)}
   .tuiles--quatre{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .quatre__film{grid-column:1/-1;order:-1;margin-bottom:var(--s2)}
   .tuiles--serie{grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s5) var(--s2)}
   .signature{grid-template-columns:1fr;gap:var(--s5)}
   .reserve__grille{grid-template-columns:1fr;gap:var(--s5)}
