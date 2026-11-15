@@ -235,14 +235,15 @@
       if (sansFondu) vue.src = src;
       else { vue.classList.add('fondu'); setTimeout(function () { vue.onload = function () { vue.classList.remove('fondu'); }; vue.src = src; }, 180); }
     }
-    /* Une pièce en vente mène à sa fiche, dans la couleur choisie ; une pièce à venir, à la liste d'attente. */
+    /* Chaque pièce mène à sa fiche, dans la couleur choisie. */
     var r = reserver, c = couleur();
     [['haut', h], ['bas', b]].forEach(function (x) {
       var lien = document.getElementById('cabine-achat-' + x[0]); if (!lien) return;
-      lien.hidden = seule && x[0] === 'bas';
       var o = x[1], f = o.dataset.fiche;
-      lien.textContent = f ? r.dataset.cmd + (lang === 'fr' ? ' : ' : ': ') + o.dataset.court + ' · ' + prix(o.dataset.prix) : o.dataset.court + ' · ' + r.dataset.bientot;
-      lien.href = f ? f + (c === 'noir' ? '' : '#' + c) : '#liste';
+      lien.hidden = (seule && x[0] === 'bas') || !f;   /* toutes les pièces sont en vente : chacune mène à sa fiche */
+      if (!f) return;
+      lien.textContent = r.dataset.cmd + (lang === 'fr' ? ' : ' : ': ') + o.dataset.court + ' · ' + prix(o.dataset.prix);
+      lien.href = f + (c === 'noir' ? '' : '#' + c);
     });
     var somme = Number(h.dataset.prix) + (seule ? 0 : Number(b.dataset.prix));
     /* le total d'abord, le détail en petit dessous (revue froide du 2026-11-15) */
