@@ -1073,6 +1073,11 @@ hr{border:0;border-top:1px solid var(--rule);margin:0}
 /* 2026-11-15 — Collections : toutes les pièces en fantôme, rangées par couleur, sur fond blanc (Pedro) */
 .boutique{background:#fff;padding:var(--s4) 0 var(--s16)}
 .boutique__couleur + .boutique__couleur{margin-top:var(--s10)}
+/* Film de tête de la page Collections (Pedro, 2026-11-15) : vertical, centré, borné par la hauteur d'écran. */
+.boutique__film{margin:0 auto var(--s10);padding:0 var(--s4);max-width:1600px}
+.boutique__film video{display:block;margin-inline:auto;width:min(100%,46vh);height:auto;background:var(--paper-2);border-radius:2px}
+@media (prefers-reduced-motion:reduce){.boutique__film video{display:none}
+  .boutique__film{background:url(media/collection-sempre-poster.jpg) center/contain no-repeat;aspect-ratio:9/16;max-height:46vh}}
 .boutique__grille{list-style:none;margin:0;padding:0 var(--s4);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s8) var(--s4);max-width:1600px;margin-inline:auto}
 @media (min-width:1200px){.boutique__grille{grid-template-columns:repeat(6,minmax(0,1fr))}}   /* une couleur par rangée ; 6 pièces = 6, 3 ou 2 colonnes, jamais de trou */
 .b-tuile{display:block;text-decoration:none;color:var(--ink)}
