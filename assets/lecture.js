@@ -153,7 +153,7 @@
 })();
 
 /* Liste d'attente : envoyée au service de formulaires s'il est branché,
-   sinon un courriel déjà rédigé vers hello@degna.ca. Jamais d'impasse. */
+   sinon un courriel déjà rédigé vers contact@degna.ca. Jamais d'impasse. */
 (function () {
   var f = document.querySelector('form[data-liste]'); if (!f) return;
   var etat = f.querySelector('.liste__etat');
@@ -165,7 +165,7 @@
     if (!url) {
       var corps = f.dataset.lPieces + ' : ' + pieces.join(', ') + '\n' + f.dataset.lCouleur + ' : ' + (d.get('couleur') || '') +
                   '\n' + f.dataset.lTaille + ' : ' + (d.get('taille') || '—') + '\n' + d.get('email');
-      location.href = 'mailto:hello@degna.ca?subject=' + encodeURIComponent(f.dataset.sujet) + '&body=' + encodeURIComponent(corps);
+      location.href = 'mailto:contact@degna.ca?subject=' + encodeURIComponent(f.dataset.sujet) + '&body=' + encodeURIComponent(corps);
       return;
     }
     bouton.disabled = true;
@@ -185,7 +185,7 @@
     e.preventDefault();
     var d = new FormData(f), url = f.dataset.url, bouton = f.querySelector('button[type="submit"]');
     if (!url) {
-      location.href = 'mailto:hello@degna.ca?subject=' + encodeURIComponent(f.dataset.sujet) + '&body=' + encodeURIComponent(d.get('email'));
+      location.href = 'mailto:contact@degna.ca?subject=' + encodeURIComponent(f.dataset.sujet) + '&body=' + encodeURIComponent(d.get('email'));
       return;
     }
     bouton.disabled = true;

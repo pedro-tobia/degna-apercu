@@ -60,15 +60,15 @@ const CHECKOUT = {
 
 // Messages dans la langue de la page (en, fr, es).
 const MSG = ({
-  en: { absent: "<b>Online checkout opens shortly.</b> To order now, write to <a href=\"mailto:hello@degna.ca\">hello@degna.ca</a>.", choisir: "<b>Choose a size first.</b> The size table is one tap away.",
+  en: { absent: "<b>Online checkout opens shortly.</b> To order now, write to <a href=\"mailto:contact@degna.ca\">contact@degna.ca</a>.", choisir: "<b>Choose a size first.</b> The size table is one tap away.",
         vers: "Taking you to the secure Stripe page…", ouvre: "Opening the secure Stripe page…",
-        echec: "<b>We could not reach checkout.</b> Nothing was charged. Try again, or write to <a href=\"mailto:hello@degna.ca\">hello@degna.ca</a> and we will take the order by email." },
-  fr: { absent: "<b>Le paiement en ligne ouvre très bientôt.</b> Pour commander dès maintenant, écrivez à <a href=\"mailto:hello@degna.ca\">hello@degna.ca</a>.", choisir: "<b>Choisissez d’abord une taille.</b> Le tableau des tailles est juste en dessous.",
+        echec: "<b>We could not reach checkout.</b> Nothing was charged. Try again, or write to <a href=\"mailto:contact@degna.ca\">contact@degna.ca</a> and we will take the order by email." },
+  fr: { absent: "<b>Le paiement en ligne ouvre très bientôt.</b> Pour commander dès maintenant, écrivez à <a href=\"mailto:contact@degna.ca\">contact@degna.ca</a>.", choisir: "<b>Choisissez d’abord une taille.</b> Le tableau des tailles est juste en dessous.",
         vers: "Redirection vers la page sécurisée de Stripe…", ouvre: "Ouverture de la page sécurisée de Stripe…",
-        echec: "<b>Le paiement est injoignable.</b> Rien n’a été débité. Réessayez, ou écrivez à <a href=\"mailto:hello@degna.ca\">hello@degna.ca</a> et nous prendrons la commande par courriel." },
-  es: { absent: "<b>El pago en línea abre muy pronto.</b> Para pedir ahora, escriba a <a href=\"mailto:hello@degna.ca\">hello@degna.ca</a>.", choisir: "<b>Elija primero una talla.</b> La tabla de tallas está justo debajo.",
+        echec: "<b>Le paiement est injoignable.</b> Rien n’a été débité. Réessayez, ou écrivez à <a href=\"mailto:contact@degna.ca\">contact@degna.ca</a> et nous prendrons la commande par courriel." },
+  es: { absent: "<b>El pago en línea abre muy pronto.</b> Para pedir ahora, escriba a <a href=\"mailto:contact@degna.ca\">contact@degna.ca</a>.", choisir: "<b>Elija primero una talla.</b> La tabla de tallas está justo debajo.",
         vers: "Redirigiendo a la página segura de Stripe…", ouvre: "Abriendo la página segura de Stripe…",
-        echec: "<b>No pudimos conectar con el pago.</b> No se cobró nada. Inténtelo de nuevo, o escriba a <a href=\"mailto:hello@degna.ca\">hello@degna.ca</a> y tomaremos el pedido por correo." }
+        echec: "<b>No pudimos conectar con el pago.</b> No se cobró nada. Inténtelo de nuevo, o escriba a <a href=\"mailto:contact@degna.ca\">contact@degna.ca</a> y tomaremos el pedido por correo." }
 })[(document.documentElement.lang || "en").slice(0, 2)] || null;
 
 function sizeChosen(form) {
