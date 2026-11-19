@@ -29,8 +29,44 @@
     [].forEach.call(document.querySelectorAll('[data-panier-n]'), function (n) { n.textContent = a.length; n.hidden = !a.length; });
   }
 
+  /* --- La livraison du pays de la visiteuse -------------------------------------------------
+     La page est statique : elle ne sait pas d'où on la lit. Le Worker, lui, est sur Cloudflare et
+     reçoit le pays avec la requête. On le lui demande une seule fois, à la première ouverture du
+     panier — pas au chargement de la page : la plupart des visites n'ouvrent jamais le panier, et
+     une requête qui ne sert à rien reste une requête.
+
+     Si quoi que ce soit échoue — Worker muet, pays inconnu, navigateur sans Intl.DisplayNames —
+     **on ne touche à rien** : la note générale écrite dans la page reste affichée. Mieux vaut une
+     phrase vraie pour tout le monde qu'une phrase à trou pour une seule. */
+  var zoneDemandee = false;
+  var note = tiroir.querySelector('.panier__note');
+
+  function nomDuPays(code) {
+    try { return new Intl.DisplayNames([lang], { type: 'region' }).of(code) || null; }
+    catch (e) { return null; }
+  }
+
+  function direLaLivraison() {
+    if (zoneDemandee || !note || !tiroir.dataset.zone) return;
+    zoneDemandee = true;
+    fetch(tiroir.dataset.zone, { headers: { Accept: 'application/json' } })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        if (!d || !d.ok || !d.pays) return;
+        var pays = nomDuPays(d.pays);
+        if (!pays) return;
+        var modele = !d.desservi ? T.zone_hors
+                   : d.droits_compris ? T.zone_offerte
+                   : T.zone_payante;
+        if (!modele) return;
+        note.textContent = modele.replace('{pays}', pays).replace('{prix}', prix(d.prix));
+      })
+      .catch(function () {});
+  }
+
   function ouvrir() {
     dernier = document.activeElement; etat.textContent = '';
+    direLaLivraison();
     tiroir.hidden = false; document.documentElement.classList.add('panier-ouvert');
     [].forEach.call(document.querySelectorAll('[data-panier-ouvrir]'), function (b) { b.setAttribute('aria-expanded', 'true'); });
     var x = tiroir.querySelector('.panier__x'); if (x) x.focus();
