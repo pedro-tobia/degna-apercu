@@ -1,5 +1,6 @@
 /* DEGNA — mesure d'audience sans cookie.
-   Envoie au serveur DEGNA : l'événement (vue, clic « Précommander », inscription, commande), la page,
+   Envoie au serveur DEGNA : l'événement (vue, clic « Précommander », inscription — **jamais une
+   commande : une vente, c'est Stripe**), la page,
    la langue, la source publicitaire (utm) et le domaine d'arrivée. Aucun cookie, aucun identifiant,
    aucune adresse IP conservée. La source d'une publicité est gardée le temps de l'onglet (sessionStorage)
    pour savoir quelle publicité a mené à une précommande. */
@@ -20,7 +21,12 @@
                   source: src.source || '', campagne: src.campagne || '', contenu: src.contenu || '', ref: ref };
     try { navigator.sendBeacon(URL_MESURE, new Blob([JSON.stringify(corps)], { type: 'text/plain' })); } catch (e) {}
   }
-  envoyer(q.get('order') === 'complete' ? 'commande' : 'vue');
+  // **Aucune « commande » n'est comptée ici.** Jusqu'au 2026-11-19 cette ligne envoyait l'événement
+  // « commande » dès que l'adresse contenait `?order=complete` — c'est-à-dire dès qu'un navigateur
+  // revenait sur la page de retour, **sans qu'aucun paiement ait été vérifié**. Elle en avait
+  // inventé deux. Une vente, c'est Stripe, et rien d'autre : la page de retour est une vue comme
+  // les autres.
+  envoyer('vue');
   // Accueil : la première fois qu'un bloc entre à l'écran (vu-<bloc>), et chaque clic de tuile (clic-<nom>).
   if ('IntersectionObserver' in window) {
     var vus = {}, obs = new IntersectionObserver(function (es) {

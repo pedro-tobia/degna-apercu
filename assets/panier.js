@@ -145,13 +145,26 @@
   });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !tiroir.hidden) fermer(); });
 
+  /* L'utm mis de côté par mesure.js, s'il y en a un. Jamais d'erreur si le stockage est refusé. */
+  function source() {
+    try { return JSON.parse(sessionStorage.getItem('degna_src') || '{}'); } catch (e) { return {}; }
+  }
+
   /* Paiement : un seul paiement Stripe pour tout le panier. */
   tiroir.querySelector('[data-panier-payer]').addEventListener('click', function () {
     var a = lire(), bouton = this; if (!a.length) return;
     bouton.disabled = true; etat.textContent = T.panier_attente;
     fetch(tiroir.dataset.url, { method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ articles: a.map(function (x) { return { piece: x.piece, couleur: x.couleur, taille: x.taille }; }),
-                             langue: lang, retour: location.pathname.replace(/^\//, '') }) })
+                             langue: lang, retour: location.pathname.replace(/^\//, ''),
+                             /* D'où vient-elle. `mesure.js` garde l'utm de la publicité dans
+                                sessionStorage le temps de l'onglet ; on le passe au serveur, qui
+                                l'écrit dans la commande Stripe. **C'est le seul chaînon qui
+                                permettra un jour de dire quelle publicité a payé une vente** :
+                                sans lui, le jour de la première vente, on saura qu'on a vendu,
+                                jamais grâce à quoi. Aucun cookie, aucun identifiant de personne :
+                                le nom d'une campagne, rien d'autre. */
+                             source: source() }) })
       .then(function (r) { return r.json(); })
       .then(function (j) { if (j && j.ok && j.url) location.href = j.url; else throw 0; })
       .catch(function () { etat.textContent = T.panier_err; bouton.disabled = false; });
