@@ -40,14 +40,29 @@
      phrase vraie pour tout le monde qu'une phrase à trou pour une seule. */
   var zoneDemandee = false;
   var note = tiroir.querySelector('.panier__note');
+  var fiche = document.querySelector('[data-zone-fiche]');
 
   function nomDuPays(code) {
     try { return new Intl.DisplayNames([lang], { type: 'region' }).of(code) || null; }
     catch (e) { return null; }
   }
 
+  /* La phrase est écrite en deux morceaux : le pays et son prix en gras, puis la fin propre au
+     moment. Sur la fiche on parle d'échange — elle se demande si elle la prend. Dans le panier on
+     parle de taxes — elle se demande le total. Le nom du pays passe par textContent, jamais par
+     innerHTML : il vient d'une table du navigateur, mais on ne construit pas de HTML avec une
+     donnée qu'on n'a pas écrite soi-même. */
+  function poserLaPhrase(ou, debut, fin) {
+    if (!ou) return;
+    ou.textContent = '';
+    var b = document.createElement('b');
+    b.textContent = debut;
+    ou.appendChild(b);
+    if (fin) { ou.appendChild(document.createTextNode(' ' + fin)); }
+  }
+
   function direLaLivraison() {
-    if (zoneDemandee || !note || !tiroir.dataset.zone) return;
+    if (zoneDemandee || (!note && !fiche) || !tiroir.dataset.zone) return;
     zoneDemandee = true;
     fetch(tiroir.dataset.zone, { headers: { Accept: 'application/json' } })
       .then(function (r) { return r.ok ? r.json() : null; })
@@ -59,10 +74,16 @@
                    : d.droits_compris ? T.zone_offerte
                    : T.zone_payante;
         if (!modele) return;
-        note.textContent = modele.replace('{pays}', pays).replace('{prix}', prix(d.prix));
+        var debut = modele.replace('{pays}', pays).replace('{prix}', prix(d.prix));
+        poserLaPhrase(note, debut, T.zone_fin_panier);
+        poserLaPhrase(fiche, debut, T.zone_fin_fiche);
       })
       .catch(function () {});
   }
+
+  /* Sur une fiche produit la phrase est visible tout de suite : on demande au chargement.
+     Ailleurs, on attend l'ouverture du panier — la plupart des visites ne l'ouvrent jamais. */
+  if (fiche) direLaLivraison();
 
   function ouvrir() {
     dernier = document.activeElement; etat.textContent = '';
