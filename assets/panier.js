@@ -89,6 +89,7 @@
     dernier = document.activeElement; etat.textContent = '';
     direLaLivraison();
     tiroir.hidden = false; document.documentElement.classList.add('panier-ouvert');
+    window.degnaMesure && window.degnaMesure('panier_ouvert', { valeur: lire().length });
     [].forEach.call(document.querySelectorAll('[data-panier-ouvrir]'), function (b) { b.setAttribute('aria-expanded', 'true'); });
     var x = tiroir.querySelector('.panier__x'); if (x) x.focus();
   }
@@ -103,7 +104,16 @@
   function ajouter(articles) {
     var a = lire();
     if (a.length + articles.length > MAX) return T.panier_max;
-    ecrire(a.concat(articles)); ouvrir(); return '';
+    ecrire(a.concat(articles)); ouvrir();
+    /* Mesure v2 : panier.js appelle la mesure directement, au lieu de compter sur l'ordre des écouteurs
+       (jusqu'au 2026-11-25, l'ajout au panier n'était compté nulle part : l'événement était coupé ici). */
+    articles.forEach(function (x) {
+      window.degnaMesure && window.degnaMesure('panier_ajout', {
+        valeur: (CAT[x.piece] || {}).prix || 0,
+        detail: x.piece + '|' + x.couleur + '|' + x.taille
+      });
+    });
+    return '';
   }
   function couleurChoisie() {
     var b = document.querySelector('.pastille[aria-pressed="true"]');
@@ -141,7 +151,14 @@
     var o = e.target.closest && e.target.closest('[data-panier-ouvrir]'); if (o) { ouvrir(); return; }
     if (e.target.closest && e.target.closest('[data-panier-fermer]')) { fermer(); return; }
     var r = e.target.closest && e.target.closest('[data-retirer]');
-    if (r) { var a = lire(); a.splice(Number(r.dataset.retirer), 1); ecrire(a); }
+    if (r) {
+      var a = lire(), parti = a[Number(r.dataset.retirer)];
+      window.degnaMesure && parti && window.degnaMesure('panier_retrait', {
+        valeur: (CAT[parti.piece] || {}).prix || 0,
+        detail: parti.piece + '|' + parti.couleur + '|' + parti.taille
+      });
+      a.splice(Number(r.dataset.retirer), 1); ecrire(a);
+    }
   });
   document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !tiroir.hidden) fermer(); });
 
@@ -154,6 +171,10 @@
   tiroir.querySelector('[data-panier-payer]').addEventListener('click', function () {
     var a = lire(), bouton = this; if (!a.length) return;
     bouton.disabled = true; etat.textContent = T.panier_attente;
+    window.degnaMesure && window.degnaMesure('paiement_ouvert', {
+      valeur: a.reduce(function (t, x) { return t + ((CAT[x.piece] || {}).prix || 0); }, 0),
+      detail: a.length + ' articles'
+    });
     fetch(tiroir.dataset.url, { method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ articles: a.map(function (x) { return { piece: x.piece, couleur: x.couleur, taille: x.taille }; }),
                              langue: lang, retour: location.pathname.replace(/^\//, ''),
@@ -167,7 +188,7 @@
                              source: source() }) })
       .then(function (r) { return r.json(); })
       .then(function (j) { if (j && j.ok && j.url) location.href = j.url; else throw 0; })
-      .catch(function () { etat.textContent = T.panier_err; bouton.disabled = false; });
+      .catch(function () { window.degnaMesure && window.degnaMesure('paiement_erreur'); etat.textContent = T.panier_err; bouton.disabled = false; });
   });
 
   /* Retour de Stripe après paiement : le panier se vide. */
