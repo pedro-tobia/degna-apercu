@@ -1139,3 +1139,8 @@ html.panier-ouvert{overflow:hidden}
 /* « Le reste de Sempre » (fiches, page Sempre) : pas de vignette blanche sur le fond de la page ; le blanc de la photo s'y fond (Pedro, 2026-11-15) */
 .boutique__grille--reste .b-tuile__vue{background:transparent}
 .boutique__grille--reste .b-tuile__vue img{mix-blend-mode:multiply}
+
+/* Un chemin discret vers la robe, sous le film muet de l'accueil (Pedro, 2026-11-25). */
+.hero__chemin{margin:1.1rem 0 0;text-align:center;font-size:.82rem;letter-spacing:.11em;text-transform:uppercase}
+.hero__chemin a{color:var(--mute);text-decoration:none;border-bottom:1px solid transparent;padding-bottom:2px;transition:color .2s,border-color .2s}
+.hero__chemin a:hover,.hero__chemin a:focus-visible{color:var(--ink);border-bottom-color:var(--ink)}
